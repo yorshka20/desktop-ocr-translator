@@ -1,0 +1,85 @@
+{
+  "name": "electron-react-starter",
+  "productName": "Electon-React Starter",
+  "version": "0.0.1",
+  "description": "A react template of electron project.",
+  "main": "dist-electron/main/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write .",
+    "lint-staged": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
+    "commitlint": "commitlint --config commitlint.config.js -e -V",
+    "prepare": "husky install",
+    "start": "vite preview",
+    "dev": "vite --mode dev",
+    "build:dev": "tsc && vite build --mode dev && electron-builder --config",
+    "build:prod": "tsc && vite build --mode prod && electron-builder --config",
+    "build:win": "tsc && vite build --mode prod && electron-builder --win --config",
+    "build:mac": "tsc && vite build --mode prod && electron-builder --mac --config",
+    "build:linux": "tsc && vite build --mode prod && electron-builder --linux --config"
+  },
+  "resolutions": {
+    "styled-components": "^5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FE-Alog/electron-template-react.git"
+  },
+  "keywords": [
+    "electron",
+    "vite",
+    "template",
+    "react"
+  ],
+  "author": "AkinoChen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vkm0303/electron-template-react/issues"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@electron/notarize": "^1.2.3",
+    "@types/node": "^18.14.6",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "antd": "^5.3.0",
+    "cross-env": "^7.0.3",
+    "electron": "^23.1.2",
+    "electron-builder": "^23.6.0",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-store": "^8.1.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "nodemon": "^2.0.21",
+    "prettier": "2.8.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.2",
+    "styled-components": "^5.3.8",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4",
+    "vite-electron-plugin": "^0.8.2",
+    "vite-plugin-electron-renderer": "^0.12.1",
+    "vite-plugin-svgr": "^2.4.0"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^1.0.3",
+    "@electron-toolkit/utils": "^1.0.2",
+    "asar": "^3.2.0"
+  }
+}
