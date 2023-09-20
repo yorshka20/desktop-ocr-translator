@@ -11,6 +11,7 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
 const preload = join(__dirname, '../preload/index.js');
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, 'index.html');
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -22,6 +23,7 @@ function createWindow(): void {
     webPreferences: {
       preload,
       sandbox: false,
+      devTools: true,
     },
   });
 

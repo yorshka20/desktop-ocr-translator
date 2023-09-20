@@ -28,3 +28,21 @@ yarn dev
 # ENV: dev | prod
 yarn build:[ENV]
 ```
+
+### Design
+
+## Purpose
+
+- screen capture. which can be implemented locally.
+
+- ocr support for at least Japanese and English
+
+- translate support for at least Japanese and English
+
+- show pronunciation for at least English, better with Japanese
+
+## How and where to use this tool?
+
+I want to use this tool for game content translating.
+
+ocr --> text recognition --> translation
