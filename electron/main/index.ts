@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron';
+import { app, shell, BrowserWindow, globalShortcut } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 
@@ -23,6 +23,7 @@ function createWindow(): void {
     webPreferences: {
       preload,
       sandbox: false,
+      contextIsolation: true,
       devTools: true,
     },
   });
@@ -40,9 +41,52 @@ function createWindow(): void {
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
     mainWindow.loadURL(url);
+
+    mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(indexHtml);
   }
+
+  registerGlobalShortcut();
+}
+
+function createScreenShotWindow() {
+  const screenShotWindow = new BrowserWindow({
+    width: 900,
+    height: 670,
+    minWidth: 700,
+    show: false,
+    autoHideMenuBar: true,
+    webPreferences: {
+      preload,
+      sandbox: false,
+      contextIsolation: true,
+      devTools: true,
+    },
+  });
+
+  // HMR for renderer base on electron-vite cli.
+  // Load the remote URL for development or the local html file for production.
+  screenShotWindow.loadFile(join(process.env.DIST, 'screenshot.html'));
+}
+
+function registerGlobalShortcut() {
+  globalShortcut.register('Alt+D', () => {
+    console.log('shortcut');
+
+    createScreenShotWindow();
+  });
+
+  const ret = globalShortcut.register('CommandOrControl+X', () => {
+    console.log('CommandOrControl+X is pressed');
+  });
+
+  if (!ret) {
+    console.log('registration failed');
+  }
+
+  // Check whether a shortcut is registered.
+  console.log(globalShortcut.isRegistered('CommandOrControl+X'));
 }
 
 // This method will be called when Electron has finished

@@ -1,13 +1,13 @@
-import { ipcRenderer } from 'electron';
+type StorageValueType = string | number | boolean | undefined;
 
-const storage = new Map<string, any>();
+const storage = new Map();
 
-export default {
-  get(key: string) {
+export const store = {
+  get(key: string): StorageValueType {
     return storage.get(key);
   },
-  set(property: string, val): void {
-    ipcRenderer.send('electron-store-set', property, val);
+  set(property: string, val: StorageValueType): void {
+    // ipcRenderer.send('electron-store-set', property, val);
     storage.set(property, val);
   },
 };

@@ -1,4 +1,5 @@
-import { Avatar, Divider, Space, Typography } from 'antd';
+import { Divider, Input, Typography } from 'antd';
+import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 const { Title, Paragraph, Text } = Typography;
@@ -21,34 +22,16 @@ const CodeBlock = styled.pre`
 `;
 
 function Home(): JSX.Element {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { value } = e.target;
+    console.log('e', value);
+    window.api.store.set('api-key', value);
+  };
+
   return (
     <Typography style={{ overflowY: 'scroll' }}>
-      <Title>🎉Electron-react-starter</Title>
-      <Paragraph>
-        <Space size="middle">
-          <Div>
-            <Avatar
-              src={<img src="electron-logo.svg" alt="avatar" />}
-              size="small"
-            />
-            <Text strong>Electron</Text>
-          </Div>
-          <Div>
-            <Avatar
-              src={<img src="vite-logo.svg" alt="avatar" />}
-              size="small"
-            />
-            <Text strong>Vite</Text>
-          </Div>
-          <Div>
-            <Avatar
-              src={<img src="react-logo.svg" alt="avatar" />}
-              size="small"
-            />
-            <Text strong>React</Text>
-          </Div>
-        </Space>
-      </Paragraph>
+      <Title>Google Cloud Translate API KEY</Title>
+      <Input width={200} onChange={handleInput} />
       <Divider />
       <Title level={2}>🚀Feature</Title>
       <Paragraph>

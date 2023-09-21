@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react';
 import electron from 'vite-electron-plugin';
 import { customStart, loadViteEnv } from 'vite-electron-plugin/plugin';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import renderer from 'vite-plugin-electron-renderer';
@@ -11,6 +11,12 @@ export default defineConfig(({ command }) => {
   return {
     build: {
       outDir: 'dist-electron/renderer',
+      rollupOptions: {
+        input: {
+          index: join(__dirname, 'index.html'),
+          screenshot: join(__dirname, 'screenshot.html'),
+        },
+      },
     },
     resolve: {
       alias: {
