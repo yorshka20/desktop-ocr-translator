@@ -4,7 +4,8 @@
     "src/env.d.ts",
     "src/**/*",
     "src/**/*.tsx",
-    "electron/preload/*.d.ts"
+    "electron/preload/*.d.ts",
+    "screenshot/screenshot.tsx"
   ],
   "compilerOptions": {
     "composite": true,

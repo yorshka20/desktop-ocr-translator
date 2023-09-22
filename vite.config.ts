@@ -8,13 +8,14 @@ import renderer from 'vite-plugin-electron-renderer';
 
 export default defineConfig(({ command }) => {
   const sourcemap = command === 'serve' || !!process.env.VSCODE_DEBUG;
+  console.log('rollupoptions', join(__dirname, 'src'));
   return {
     build: {
       outDir: 'dist-electron/renderer',
       rollupOptions: {
         input: {
           index: join(__dirname, 'index.html'),
-          screenshot: join(__dirname, 'screenshot.html'),
+          screenshot: join(__dirname, 'screenshot/index.html'),
         },
       },
     },

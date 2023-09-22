@@ -40,6 +40,7 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
+    console.log('process.env', process.env);
     mainWindow.loadURL(url);
 
     mainWindow.webContents.openDevTools();
@@ -65,9 +66,22 @@ function createScreenShotWindow() {
     },
   });
 
+  console.log('shortcut window', url);
+
+  screenShotWindow.once('ready-to-show', () => {
+    screenShotWindow.show();
+  });
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
-  screenShotWindow.loadFile(join(process.env.DIST, 'screenshot.html'));
+  if (is.dev && url) {
+    screenShotWindow.loadURL(url + '/screenshot/index.html');
+  } else {
+    const htmlPath = join(process.env.PWD || '', 'screenshot/index.html');
+    screenShotWindow.loadFile(htmlPath);
+  }
+
+  screenShotWindow.webContents.openDevTools();
 }
 
 function registerGlobalShortcut() {
