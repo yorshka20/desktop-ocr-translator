@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client';
 import { HashRouter as Router } from 'react-router-dom';
 
+import README from '@renderer/pages/README';
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Router>
     <App />
@@ -8,5 +10,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 );
 
 function App() {
-  return <div>screen short</div>;
+  return (
+    <div>
+      screen shot page
+      <README />
+    </div>
+  );
 }

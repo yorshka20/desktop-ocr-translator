@@ -40,7 +40,10 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
-    console.log('process.env', process.env);
+    // console.log('process.env', process.env);
+
+    // default to open the index.html file.
+    // in multiple pages, set specific html file path to the url.
     mainWindow.loadURL(url);
 
     mainWindow.webContents.openDevTools();
@@ -51,13 +54,15 @@ function createWindow(): void {
   registerGlobalShortcut();
 }
 
-function createScreenShotWindow() {
+function createScreenShotWindow(): void {
   const screenShotWindow = new BrowserWindow({
     width: 900,
     height: 670,
     minWidth: 700,
     show: false,
     autoHideMenuBar: true,
+    frame: false, // no border
+    titleBarStyle: 'hidden', // no title
     webPreferences: {
       preload,
       sandbox: false,
@@ -66,8 +71,10 @@ function createScreenShotWindow() {
     },
   });
 
-  console.log('shortcut window', url);
+  // hide traffic light. you can only close the window by ctrl+w
+  screenShotWindow.setWindowButtonVisibility(false);
 
+  // always to invoke window.show() when window ready
   screenShotWindow.once('ready-to-show', () => {
     screenShotWindow.show();
   });
@@ -84,15 +91,10 @@ function createScreenShotWindow() {
   screenShotWindow.webContents.openDevTools();
 }
 
-function registerGlobalShortcut() {
-  globalShortcut.register('Alt+D', () => {
-    console.log('shortcut');
-
+function registerGlobalShortcut(): void {
+  const ret = globalShortcut.register('Alt+D', () => {
+    console.log('Alt+D is pressed');
     createScreenShotWindow();
-  });
-
-  const ret = globalShortcut.register('CommandOrControl+X', () => {
-    console.log('CommandOrControl+X is pressed');
   });
 
   if (!ret) {
@@ -100,7 +102,11 @@ function registerGlobalShortcut() {
   }
 
   // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered('CommandOrControl+X'));
+  console.log(globalShortcut.isRegistered('Alt+D'));
+}
+
+function unregisterGlobalShortcut() {
+  globalShortcut.unregisterAll();
 }
 
 // This method will be called when Electron has finished
@@ -133,6 +139,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+
+  unregisterGlobalShortcut();
 });
 
 // In this file you can include the rest of your app"s specific main process
