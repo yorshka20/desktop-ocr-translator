@@ -17,8 +17,6 @@ const Container = styled.div`
 `;
 
 export default function App() {
-  const [imgData, setImgData] = useState('');
-
   const [windowDisplay, setWindowDisplay] = useState(false);
 
   useEffect(() => {
@@ -35,10 +33,10 @@ export default function App() {
 
   useEffect(() => {
     async function screenshot(): Promise<void> {
-      const result = await window.electronApi.ipcRenderer.invoke(
-        'check-screen'
-      );
-      console.log('check screen ', result);
+      // const result = await window.electronApi.ipcRenderer.invoke(
+      //   'check-screen'
+      // );
+      // console.log('check screen ', result);
 
       // systemPreferences.askForMediaAccess(mediaType);
 
@@ -48,13 +46,14 @@ export default function App() {
         );
         const canvas = document.getElementById(
           'source-image'
-        ) as HTMLImageElement;
-        console.log('dataurl', dataUrl.length);
+        ) as HTMLCanvasElement;
         if (canvas) {
-          // const img = new Image();
-          // const context = canvas.getContext('2d');
-          // context?.drawImage(img, 0, 0);
-          canvas.src = dataUrl;
+          const img = new Image();
+          const context = canvas.getContext('2d');
+          img.onload = () => {
+            context?.drawImage(img, 0, 0);
+          };
+          img.src = dataUrl;
         }
       } catch (error) {
         console.log('error', error);
@@ -65,15 +64,12 @@ export default function App() {
 
     if (windowDisplay) {
       screenshot();
-    } else {
-      //
     }
   }, [windowDisplay]);
 
   return (
     <Container>
-      {/* <canvas id={'source-image'} width={screen.width} height={screen.height} /> */}
-      <img id={'source-image'} width={screen.width} height={screen.height} />
+      <canvas id={'source-image'} width={screen.width} height={screen.height} />
       <RectCutArea show={windowDisplay} />
     </Container>
   );
@@ -102,14 +98,15 @@ function RectCutArea({ show }: { show: boolean }) {
 
     const { x, y } = e;
     setStart({ x, y });
+    console.log('mousedown', x, y);
 
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseup', handleMouseUp);
   }
 
   function handleMouseMove(e: MouseEvent) {
-    console.log('mousemove', e);
     const { x, y } = e;
+    console.log('mousemove', x, y);
 
     const context = getContext();
     if (!context) return;
@@ -122,11 +119,14 @@ function RectCutArea({ show }: { show: boolean }) {
   }
 
   function handleMouseUp(e: MouseEvent) {
-    console.log('mouseup', e);
     const canvas = canvasRef.current;
     if (!canvas) return;
+    console.log('mouseup', e.x, e.y);
 
+    // stop listen to mousemove
     canvas.removeEventListener('mousemove', handleMouseMove);
+    // start listen to mousedown again
+    canvas.addEventListener('mousedown', handleMouseDown);
   }
 
   useEffect(() => {
