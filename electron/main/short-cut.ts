@@ -11,7 +11,6 @@ const shortCutList: ShortCutPair[] = [
   {
     key: 'Alt+D',
     func: () => {
-      console.log('show something');
       ipcMain.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, '', true);
 
       globalShortcut.register('ESC', () => {

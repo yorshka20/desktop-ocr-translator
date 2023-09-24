@@ -4,6 +4,7 @@ dist
 
 yarn-*.*
 
+.env
 .env.*
 
-
+*.local.*
