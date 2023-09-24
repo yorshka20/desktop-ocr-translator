@@ -1,15 +1,15 @@
+import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import {
-  app,
-  shell,
   BrowserWindow,
+  app,
+  desktopCapturer,
   globalShortcut,
   ipcMain,
-  desktopCapturer,
+  shell,
   systemPreferences,
-  screen,
 } from 'electron';
 import { join } from 'path';
-import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+
 import { getScreenSize, setupScreenShot } from './screen-shot';
 
 process.env.DIST_ELECTRON = join(__dirname, '../');
