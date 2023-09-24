@@ -2,15 +2,18 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import {
   BrowserWindow,
   app,
-  desktopCapturer,
-  globalShortcut,
   ipcMain,
   shell,
   systemPreferences,
 } from 'electron';
 import { join } from 'path';
 
-import { getScreenSize, setupScreenShot } from './screen-shot';
+import {
+  getScreenSize,
+  setupScreenShotListener,
+  setupShowWindowListener,
+} from './screen-shot';
+import { registerGlobalShortcut, unregisterGlobalShortcut } from './short-cut';
 
 process.env.DIST_ELECTRON = join(__dirname, '../');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist-electron/renderer');
@@ -52,12 +55,6 @@ function createWindow(): void {
     return result;
   });
 
-  ipcMain.handle('desktop-capture', async () => {
-    const result = await desktopCapturer.getSources({ types: ['screen'] });
-    console.log('result', result);
-    return result;
-  });
-
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
@@ -78,10 +75,11 @@ function createWindow(): void {
 function createScreenShotWindow(): void {
   const { width, height } = getScreenSize();
   const screenShotWindow = new BrowserWindow({
-    width: width * 0.8,
-    height: height * 0.8,
+    width,
+    height,
     minWidth: 700,
-    show: false,
+    minHeight: 600,
+    show: false, // do not show window by default
     autoHideMenuBar: true,
     frame: true, // no border
     titleBarStyle: 'hidden', // no title
@@ -99,13 +97,13 @@ function createScreenShotWindow(): void {
     screenShotWindow.setWindowButtonVisibility(false);
   }
 
-  // always to invoke window.show() when window ready
+  // using command to show and hide window. do not show window by default
   screenShotWindow.once('ready-to-show', () => {
-    screenShotWindow.show();
+    setupShowWindowListener(screenShotWindow);
   });
 
   // add screen-shot listener
-  setupScreenShot();
+  setupScreenShotListener();
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
@@ -117,24 +115,6 @@ function createScreenShotWindow(): void {
   }
 
   screenShotWindow.webContents.openDevTools();
-}
-
-function registerGlobalShortcut(): void {
-  const ret = globalShortcut.register('Alt+D', () => {
-    console.log('Alt+D is pressed');
-    createScreenShotWindow();
-  });
-
-  if (!ret) {
-    console.log('registration failed');
-  }
-
-  // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered('Alt+D'));
-}
-
-function unregisterGlobalShortcut() {
-  globalShortcut.unregisterAll();
 }
 
 // This method will be called when Electron has finished
@@ -151,7 +131,11 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window);
   });
 
+  // create and show main window.
   createWindow();
+
+  // prepare for screenshot window
+  createScreenShotWindow();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

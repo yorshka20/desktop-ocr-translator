@@ -1,11 +1,13 @@
 import { electronAPI } from '@electron-toolkit/preload';
 import { contextBridge } from 'electron';
 
+import { setDisplayScreenshotWindow } from './command';
 import { store } from './store';
 
 // Custom APIs for renderer
 const api = {
   store,
+  setDisplayScreenshotWindow,
 };
 
 export type API = typeof api;
