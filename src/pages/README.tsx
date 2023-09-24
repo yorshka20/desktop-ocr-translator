@@ -30,8 +30,11 @@ function Home(): JSX.Element {
   };
 
   const handleClick = async () => {
-    const result = window.api.systemPreferences.getMediaAccessStatus('screen');
-    console.log('systempreference', result);
+    // const result = window.api.systemPreferences.getMediaAccessStatus('screen');
+    // console.log('systempreference', result);
+
+    const result = await window.electronApi.ipcRenderer.invoke('check-screen');
+    console.log('check screen ', result);
 
     // systemPreferences.askForMediaAccess(mediaType);
 

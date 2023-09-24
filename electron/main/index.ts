@@ -5,8 +5,8 @@ import {
   globalShortcut,
   ipcMain,
   desktopCapturer,
+  systemPreferences,
 } from 'electron';
-import { systemPreferences } from 'electron/main';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 
@@ -45,6 +45,11 @@ function createWindow(): void {
     return { action: 'deny' };
   });
 
+  ipcMain.handle('check-screen', async () => {
+    const result = await systemPreferences.getMediaAccessStatus('screen');
+    return result;
+  });
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
@@ -81,16 +86,18 @@ function createScreenShotWindow(): void {
   });
 
   // hide traffic light. you can only close the window by ctrl+w
-  screenShotWindow.setWindowButtonVisibility(false);
+  if (process.mac) {
+    screenShotWindow.setWindowButtonVisibility(false);
+  }
 
   // always to invoke window.show() when window ready
   screenShotWindow.once('ready-to-show', () => {
     screenShotWindow.show();
-    console.log(
-      'getMediaAccessStatus',
-      systemPreferences.getMediaAccessStatus('screen')
-    );
-    systemPreferences.askForMediaAccess('screen');
+    // console.log(
+    //   'getMediaAccessStatus',
+    //   systemPreferences.getMediaAccessStatus('screen')
+    // );
+    // systemPreferences.askForMediaAccess('screen');
   });
 
   ipcMain.handle('capture-screen', async () => {
