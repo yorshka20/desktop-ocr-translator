@@ -1,5 +1,5 @@
-import Reset from './assets/styles/reset';
-import AppLayout from './layout/AppLayout';
+import Reset from '../../assets/styles/reset';
+import AppLayout from '../../layout/AppLayout';
 
 function App(): JSX.Element {
   return (

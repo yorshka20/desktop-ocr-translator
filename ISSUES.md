@@ -1,5 +1,9 @@
 ## record some issues occurred in developing process.
 
+- for multiple windows app using vite.js, you should make separate folder for different window because vite.js will use the html file as the entry of your app.
+
+- in this project, I put the original main page at the root of src, the main page of this app will start from index.html. the second page will start from screenshot/index.html, this is a different entry of this app.
+
 - you should do the screen capture in main process because it's limited by electron.
 
 - you cannot expose electron/main api to renderer process, even with preload script. the unsupported api will be undefined. instead, you can expose these api to preload and use it in preload script.

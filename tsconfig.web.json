@@ -2,10 +2,9 @@
   "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
   "include": [
     "src/env.d.ts",
-    "src/**/*",
+    "src/**/*.ts",
     "src/**/*.tsx",
     "electron/preload/*.d.ts",
-    "screenshot/screenshot.tsx"
   ],
   "compilerOptions": {
     "composite": true,

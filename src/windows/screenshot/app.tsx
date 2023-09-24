@@ -1,15 +1,5 @@
-import { Button } from 'antd';
-import { nativeImage } from 'electron';
 import { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom/client';
-import { HashRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
-
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <Router>
-    <App />
-  </Router>
-);
 
 const Container = styled.div`
   border: 1px solid red;
@@ -22,7 +12,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-function App() {
+export default function App() {
   const [imgData, setImgData] = useState('');
 
   const handleClick = async () => {};
