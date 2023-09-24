@@ -1,4 +1,12 @@
-import { app, shell, BrowserWindow, globalShortcut } from 'electron';
+import {
+  app,
+  shell,
+  BrowserWindow,
+  globalShortcut,
+  ipcMain,
+  desktopCapturer,
+} from 'electron';
+import { systemPreferences } from 'electron/main';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 
@@ -61,8 +69,9 @@ function createScreenShotWindow(): void {
     minWidth: 700,
     show: false,
     autoHideMenuBar: true,
-    frame: false, // no border
+    frame: true, // no border
     titleBarStyle: 'hidden', // no title
+    transparent: true,
     webPreferences: {
       preload,
       sandbox: false,
@@ -77,6 +86,21 @@ function createScreenShotWindow(): void {
   // always to invoke window.show() when window ready
   screenShotWindow.once('ready-to-show', () => {
     screenShotWindow.show();
+    console.log(
+      'getMediaAccessStatus',
+      systemPreferences.getMediaAccessStatus('screen')
+    );
+    systemPreferences.askForMediaAccess('screen');
+  });
+
+  ipcMain.handle('capture-screen', async () => {
+    const sources = await desktopCapturer.getSources({
+      types: ['screen'],
+    });
+    console.log('sources', sources);
+    const img = sources[0].thumbnail;
+    console.log('img in main', img);
+    return img.toPNG();
   });
 
   // HMR for renderer base on electron-vite cli.

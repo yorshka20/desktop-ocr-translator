@@ -1,4 +1,5 @@
-import { Divider, Input, Typography } from 'antd';
+import { Divider, Input, Button, Typography } from 'antd';
+
 import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
@@ -28,11 +29,44 @@ function Home(): JSX.Element {
     window.api.store.set('api-key', value);
   };
 
+  const handleClick = async () => {
+    const result = window.api.systemPreferences.getMediaAccessStatus('screen');
+    console.log('systempreference', result);
+
+    // systemPreferences.askForMediaAccess(mediaType);
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          mandatory: {
+            chromeMediaSource: 'desktop',
+            chromeMediaSourceId: 'screen1:0',
+            minWidth: 1280,
+            maxWidth: 1280,
+            minHeight: 720,
+            maxHeight: 720,
+          },
+        },
+      });
+      if (stream) {
+        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+        if (canvas) {
+          const context = canvas.getContext('2d');
+          context?.drawImage(stream, 0, 0);
+        }
+      }
+    } catch (error) {
+      console.log('ereror', error);
+    }
+  };
+
   return (
     <Typography style={{ overflowY: 'scroll' }}>
       <Title>Google Cloud Translate API KEY</Title>
       <Input width={200} onChange={handleInput} />
       <Divider />
+      <Button onClick={handleClick}>screenshot</Button>
       <Title level={2}>🚀Feature</Title>
       <Paragraph>
         <Ul>

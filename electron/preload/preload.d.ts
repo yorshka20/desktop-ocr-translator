@@ -1,10 +1,8 @@
+import { electronAPI } from '@electron-toolkit/preload';
+import { type API } from './index';
 declare global {
   interface Window {
-    electron: {
-      store: {
-        get: (key: string) => any;
-        set: (key: string, val: any) => void;
-      };
-    };
+    electronApi: typeof electronAPI;
+    api: API;
   }
 }
