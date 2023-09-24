@@ -3,6 +3,7 @@ import { BrowserWindow, desktopCapturer, ipcMain, screen } from 'electron';
 import { EVENTS } from '../constants';
 
 export function setupScreenShotListener(): void {
+  // it's a sync method. return with a promise resolve.
   ipcMain.handle(EVENTS.TASK_DO_SCREEN_SHOT, async () => {
     const primaryDisplay = screen.getPrimaryDisplay();
     const { width, height } = primaryDisplay.workAreaSize;
@@ -27,6 +28,7 @@ export function getScreenSize(): Electron.Size {
 
 export function setupShowWindowListener(window: BrowserWindow): void {
   ipcMain.on(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, (_, show: boolean) => {
+    console.log('setupShowWindowListener', show);
     if (show) {
       window.show();
     } else {
