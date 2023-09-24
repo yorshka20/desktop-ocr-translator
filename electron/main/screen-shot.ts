@@ -37,4 +37,12 @@ export function setupShowWindowListener(window: BrowserWindow): void {
 
     window.webContents.send('window-display', show);
   });
+
+  ipcMain.on(EVENTS.WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT, () => {
+    if (window.isVisible()) {
+      window.hide();
+    } else {
+      window.show();
+    }
+  });
 }

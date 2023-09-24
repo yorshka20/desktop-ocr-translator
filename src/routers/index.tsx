@@ -25,7 +25,7 @@ interface RouteObject {
   };
 }
 
-const README = lazy(() => import('@renderer/pages/README'));
+const README = lazy(() => import('@renderer/components/README'));
 
 const routes: RouteObject[] = [
   {

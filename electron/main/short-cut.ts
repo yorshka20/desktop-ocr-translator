@@ -2,7 +2,12 @@ import { globalShortcut, ipcMain } from 'electron';
 
 import { EVENTS } from '../constants';
 
-const shortCutList = [
+type ShortCutPair = {
+  key: string;
+  func: () => void;
+};
+
+const shortCutList: ShortCutPair[] = [
   {
     key: 'Alt+D',
     func: () => {
@@ -10,10 +15,15 @@ const shortCutList = [
       ipcMain.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, '', true);
 
       globalShortcut.register('ESC', () => {
-        console.log('esc keydown');
         ipcMain.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, '', false);
         globalShortcut.unregister('ESC');
       });
+    },
+  },
+  {
+    key: 'Alt+Q',
+    func: () => {
+      ipcMain.emit(EVENTS.WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT);
     },
   },
 ];

@@ -4,12 +4,14 @@ const worker = await createWorker({
   logger: (m) => console.log(m),
 });
 
-export async function init(lang = 'eng') {
+type Lang = 'jpn' | 'eng';
+
+export async function init(lang: Lang = 'eng') {
   await worker.loadLanguage(lang);
   await worker.initialize(lang);
 }
 
-export async function changeOCRLang(lang: string) {
+export async function changeOCRLang(lang: Lang) {
   await worker.terminate();
 
   await worker.loadLanguage(lang);
@@ -17,8 +19,10 @@ export async function changeOCRLang(lang: string) {
 }
 
 export async function ocrText(img: string) {
+  const data = await worker.recognize(img);
+  console.log(data);
   const {
     data: { text },
-  } = await worker.recognize(img);
+  } = data;
   console.log(text);
 }
