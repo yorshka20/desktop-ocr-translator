@@ -1,11 +1,12 @@
+import { ReadOutlined } from '@ant-design/icons';
+import { lazy } from 'react';
 import {
   ActionFunction,
   LoaderFunction,
   Navigate,
   ShouldRevalidateFunction,
 } from 'react-router-dom';
-import { ReadOutlined } from '@ant-design/icons';
-import { lazy } from 'react';
+
 interface RouteObject {
   path?: string;
   index?: boolean;

@@ -3,7 +3,6 @@ import { nativeImage } from 'electron';
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter as Router } from 'react-router-dom';
-
 import styled from 'styled-components';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

@@ -1,9 +1,10 @@
-import SideMenu from './components/SideMenu';
-import { Layout, Spin } from 'antd';
-import { RouteObject, useRoutes } from 'react-router-dom';
-import { Suspense } from 'react';
 import routes from '@renderer/routers';
+import { Layout, Spin } from 'antd';
+import { Suspense } from 'react';
+import { RouteObject, useRoutes } from 'react-router-dom';
 import styled from 'styled-components';
+
+import SideMenu from './components/SideMenu';
 
 const { Content, Sider } = Layout;
 

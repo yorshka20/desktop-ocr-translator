@@ -1,5 +1,4 @@
-import { Divider, Input, Button, Typography } from 'antd';
-
+import { Button, Divider, Input, Typography } from 'antd';
 import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 

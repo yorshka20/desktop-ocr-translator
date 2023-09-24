@@ -1,10 +1,10 @@
 import react from '@vitejs/plugin-react';
+import { join, resolve } from 'path';
+import { defineConfig } from 'vite';
 import electron from 'vite-electron-plugin';
 import { customStart, loadViteEnv } from 'vite-electron-plugin/plugin';
-import { resolve, join } from 'path';
-import { defineConfig } from 'vite';
-import svgr from 'vite-plugin-svgr';
 import renderer from 'vite-plugin-electron-renderer';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig(({ command }) => {
   const sourcemap = command === 'serve' || !!process.env.VSCODE_DEBUG;

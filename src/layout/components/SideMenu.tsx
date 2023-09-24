@@ -1,8 +1,8 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import routes from '@renderer/routers';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import routes from '@renderer/routers';
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
