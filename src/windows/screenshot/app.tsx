@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { EVENTS } from '../../../electron/constants';
+import { init, ocrText } from './ocr';
+
+// setup ocr worker
+init('eng');
 
 const Container = styled.div`
   margin: 0;
@@ -64,11 +68,15 @@ export default function App() {
     if (windowDisplay) {
       screenshot();
     } else {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
+      clearRect();
     }
   }, [windowDisplay]);
+
+  function clearRect() {
+    const context = canvasRef.current?.getContext('2d');
+    if (!context) return;
+    context.clearRect(0, 0, screen.width, screen.height);
+  }
 
   function handleCut(start: Position, end: Position) {
     const context = canvasRef.current?.getContext('2d');
@@ -90,6 +98,9 @@ export default function App() {
 
     const img = newCanvas.toDataURL();
     console.log(img);
+
+    clearRect();
+    ocrText(img);
   }
 
   return (
