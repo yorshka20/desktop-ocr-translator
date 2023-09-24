@@ -1,6 +1,6 @@
 import { Divider, Input, Button, Typography } from 'antd';
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 
 const { Title, Paragraph, Text } = Typography;
@@ -23,6 +23,8 @@ const CodeBlock = styled.pre`
 `;
 
 function Home(): JSX.Element {
+  const [videoSrc, setVideo] = useState();
+
   const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
     console.log('e', value);
@@ -39,25 +41,10 @@ function Home(): JSX.Element {
     // systemPreferences.askForMediaAccess(mediaType);
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: {
-          mandatory: {
-            chromeMediaSource: 'desktop',
-            chromeMediaSourceId: 'screen1:0',
-            minWidth: 1280,
-            maxWidth: 1280,
-            minHeight: 720,
-            maxHeight: 720,
-          },
-        },
-      });
-      if (stream) {
-        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-        if (canvas) {
-          const context = canvas.getContext('2d');
-          context?.drawImage(stream, 0, 0);
-        }
+      const dataUrl = await window.electronApi.ipcRenderer.invoke('screenshot');
+      const img = document.getElementById('screenshot') as HTMLImageElement;
+      if (img) {
+        img.src = dataUrl;
       }
     } catch (error) {
       console.log('ereror', error);
@@ -70,6 +57,7 @@ function Home(): JSX.Element {
       <Input width={200} onChange={handleInput} />
       <Divider />
       <Button onClick={handleClick}>screenshot</Button>
+      <img src="" id="screenshot" />
       <Title level={2}>🚀Feature</Title>
       <Paragraph>
         <Ul>

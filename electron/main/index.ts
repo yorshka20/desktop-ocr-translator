@@ -6,6 +6,7 @@ import {
   ipcMain,
   desktopCapturer,
   systemPreferences,
+  screen,
 } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
@@ -50,6 +51,28 @@ function createWindow(): void {
     return result;
   });
 
+  ipcMain.handle('desktop-capture', async () => {
+    const result = await desktopCapturer.getSources({ types: ['screen'] });
+    console.log('result', result);
+    return result;
+  });
+
+  ipcMain.handle('screenshot', async () => {
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const { width, height } = primaryDisplay.workAreaSize;
+    const sources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: {
+        height,
+        width,
+      },
+    });
+
+    const content = sources[0].thumbnail.toDataURL();
+    console.log('get desktopCapturer', content);
+    return content;
+  });
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
@@ -86,7 +109,7 @@ function createScreenShotWindow(): void {
   });
 
   // hide traffic light. you can only close the window by ctrl+w
-  if (process.mac) {
+  if (process.platform === 'darwin') {
     screenShotWindow.setWindowButtonVisibility(false);
   }
 
