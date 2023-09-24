@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { nativeImage } from 'electron';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter as Router } from 'react-router-dom';
 
@@ -26,34 +26,36 @@ const Container = styled.div`
 function App() {
   const [imgData, setImgData] = useState('');
 
-  const handleClick = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: {
-        mandatory: {
-          chromeMediaSource: 'desktop',
-          chromeMediaSourceId: 'screen1:0',
-          minWidth: 1280,
-          maxWidth: 1280,
-          minHeight: 720,
-          maxHeight: 720,
-        },
-      },
-    });
-    if (stream) {
-      const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-      if (canvas) {
-        const context = canvas.getContext('2d');
-        context?.drawImage(stream, 0, 0);
+  const handleClick = async () => {};
+
+  useEffect(() => {
+    async function screenshot(): Promise<void> {
+      const result = await window.electronApi.ipcRenderer.invoke(
+        'check-screen'
+      );
+      console.log('check screen ', result);
+
+      // systemPreferences.askForMediaAccess(mediaType);
+
+      try {
+        const dataUrl = await window.electronApi.ipcRenderer.invoke(
+          'screenshot'
+        );
+        const img = document.getElementById('screenshot') as HTMLImageElement;
+        if (img) {
+          img.src = dataUrl;
+        }
+      } catch (error) {
+        console.log('ereror', error);
       }
     }
-  };
+
+    screenshot();
+  }, []);
 
   return (
     <Container>
-      screen shot page
-      <Button onClick={handleClick}>screenshot </Button>
-      <canvas id="canvas" width={1280} height={800} />
+      <img src="" id="screenshot" />
     </Container>
   );
 }

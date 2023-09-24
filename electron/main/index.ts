@@ -10,6 +10,7 @@ import {
 } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { getScreenSize, setupScreenShot } from './screen-shot';
 
 process.env.DIST_ELECTRON = join(__dirname, '../');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist-electron/renderer');
@@ -57,22 +58,6 @@ function createWindow(): void {
     return result;
   });
 
-  ipcMain.handle('screenshot', async () => {
-    const primaryDisplay = screen.getPrimaryDisplay();
-    const { width, height } = primaryDisplay.workAreaSize;
-    const sources = await desktopCapturer.getSources({
-      types: ['screen'],
-      thumbnailSize: {
-        height,
-        width,
-      },
-    });
-
-    const content = sources[0].thumbnail.toDataURL();
-    console.log('get desktopCapturer', content);
-    return content;
-  });
-
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
@@ -91,9 +76,10 @@ function createWindow(): void {
 }
 
 function createScreenShotWindow(): void {
+  const { width, height } = getScreenSize();
   const screenShotWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: width * 0.8,
+    height: height * 0.8,
     minWidth: 700,
     show: false,
     autoHideMenuBar: true,
@@ -116,22 +102,10 @@ function createScreenShotWindow(): void {
   // always to invoke window.show() when window ready
   screenShotWindow.once('ready-to-show', () => {
     screenShotWindow.show();
-    // console.log(
-    //   'getMediaAccessStatus',
-    //   systemPreferences.getMediaAccessStatus('screen')
-    // );
-    // systemPreferences.askForMediaAccess('screen');
   });
 
-  ipcMain.handle('capture-screen', async () => {
-    const sources = await desktopCapturer.getSources({
-      types: ['screen'],
-    });
-    console.log('sources', sources);
-    const img = sources[0].thumbnail;
-    console.log('img in main', img);
-    return img.toPNG();
-  });
+  // add screen-shot listener
+  setupScreenShot();
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
