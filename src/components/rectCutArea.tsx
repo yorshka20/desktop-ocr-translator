@@ -95,6 +95,22 @@ export function RectCutArea({
     }
   }
 
+  function handleConfirm() {
+    console.log('handleConfirm');
+    handleCut(startRef.current, endRef.current);
+
+    document.removeEventListener('keydown', handleEnter);
+    canvasRef.current?.removeEventListener('mousedown', handleMouseDown);
+
+    clearRect();
+
+    window.electronApi.ipcRenderer.send(
+      EVENTS.WINDOW_DISPLAY_SCREEN_SHOT,
+      '',
+      false
+    );
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -113,7 +129,12 @@ export function RectCutArea({
   return (
     <CanvasContainer>
       <ContentWrapper className={show ? 'show' : ''}>
-        <canvas width={screen.width} height={screen.height} ref={canvasRef} />
+        <canvas
+          onDoubleClick={handleConfirm}
+          width={screen.width}
+          height={screen.height}
+          ref={canvasRef}
+        />
         <div className="tool">screen show area</div>
       </ContentWrapper>
     </CanvasContainer>
@@ -127,6 +148,8 @@ const ContentWrapper = styled.div`
   height: 100%;
 
   visibility: hidden;
+
+  user-select: none;
 
   &.show {
     visibility: visible;

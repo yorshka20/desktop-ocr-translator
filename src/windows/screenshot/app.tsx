@@ -107,6 +107,7 @@ export default function App() {
     newCanvas.getContext('2d')?.putImageData(imageData, 0, 0);
 
     const img = newCanvas.toDataURL();
+    window.api.saveImg(img);
     console.log(img);
 
     clearRect();

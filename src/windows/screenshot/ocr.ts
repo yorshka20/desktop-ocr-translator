@@ -25,15 +25,25 @@ export async function ocrText(img: string) {
     data: { text },
   } = data;
   console.log('originText', text);
-  const ntext = postProcessText(text);
-  console.log(ntext);
+  const nText = postProcessText(text);
+  console.log(nText);
 }
 
-const numList = '①②③④⑤⑥⑦⑧⑨'.split('');
+const replaceMap: Array<[string, string]> = [
+  ['①', '1'],
+  ['②', '2'],
+  ['③', '3'],
+  ['④', '4'],
+  ['⑤', '5'],
+  ['⑥', '6'],
+  ['⑦', '7'],
+  ['⑧', '8'],
+  ['⑨', '9'],
+];
 
 function postProcessText(text: string) {
-  for (const index in numList) {
-    text = text.replaceAll(numList[index], index + 1);
+  for (const [key, value] of replaceMap) {
+    text = text.replaceAll(key, value);
   }
   return text;
 }
