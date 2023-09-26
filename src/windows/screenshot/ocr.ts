@@ -24,5 +24,16 @@ export async function ocrText(img: string) {
   const {
     data: { text },
   } = data;
-  console.log(text);
+  console.log('originText', text);
+  const ntext = postProcessText(text);
+  console.log(ntext);
+}
+
+const numList = '①②③④⑤⑥⑦⑧⑨'.split('');
+
+function postProcessText(text: string) {
+  for (const index in numList) {
+    text = text.replaceAll(numList[index], index + 1);
+  }
+  return text;
 }

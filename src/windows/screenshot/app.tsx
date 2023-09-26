@@ -19,6 +19,11 @@ const Container = styled.div`
   position: relative;
 
   overflow: hidden;
+
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export default function App() {
@@ -55,6 +60,8 @@ export default function App() {
           const context = canvas.getContext('2d');
           img.onload = () => {
             context?.drawImage(img, 0, 0);
+            // set transform to scale up pixel density
+            context?.setTransform(1.5, 0, 0, 1.5, 0, 0);
           };
           img.src = dataUrl;
         }
@@ -62,8 +69,6 @@ export default function App() {
         console.log('error', error);
       }
     }
-
-    console.log('windowDisplay', windowDisplay);
 
     if (windowDisplay) {
       screenshot();
@@ -110,7 +115,11 @@ export default function App() {
 
   return (
     <Container>
-      <canvas ref={canvasRef} width={screen.width} height={screen.height} />
+      <canvas
+        ref={canvasRef}
+        width={screen.width * 1.5}
+        height={screen.height * 1.5}
+      />
       <RectCutArea handleCut={handleCut} show={windowDisplay} />
     </Container>
   );

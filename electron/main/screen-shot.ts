@@ -6,16 +6,24 @@ export function setupScreenShotListener(): void {
   // it's a sync method. return with a promise resolve.
   ipcMain.handle(EVENTS.TASK_DO_SCREEN_SHOT, async () => {
     const primaryDisplay = screen.getPrimaryDisplay();
-    const { width, height } = primaryDisplay.workAreaSize;
+    const { width, height } = primaryDisplay.size;
+    const { scaleFactor } = primaryDisplay;
     const sources = await desktopCapturer.getSources({
       types: ['screen'],
       thumbnailSize: {
-        height,
-        width,
+        height: height * scaleFactor,
+        width: width * scaleFactor,
       },
     });
 
     const content = sources[0].thumbnail.toDataURL();
+
+    // new Promise(() =>
+    //   writeFileSync(
+    //     `screenshot/${Date.now()}.png`,
+    //     sources[0].thumbnail.toPNG()
+    //   )
+    // );
     return content;
   });
 }
@@ -30,9 +38,11 @@ export function setupShowWindowListener(window: BrowserWindow): void {
   ipcMain.on(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, (_, show: boolean) => {
     console.log('setupShowWindowListener', show);
     if (show) {
+      window.setKiosk(true);
       window.show();
     } else {
       window.hide();
+      window.setKiosk(false);
     }
 
     window.webContents.send('window-display', show);

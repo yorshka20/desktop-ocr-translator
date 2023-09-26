@@ -101,6 +101,8 @@ export function RectCutArea({
 
     if (show) {
       canvas.addEventListener('mousedown', handleMouseDown);
+    } else {
+      canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     return () => {
@@ -112,7 +114,7 @@ export function RectCutArea({
     <CanvasContainer>
       <ContentWrapper className={show ? 'show' : ''}>
         <canvas width={screen.width} height={screen.height} ref={canvasRef} />
-        <div className="tool">tools</div>
+        <div className="tool">screen show area</div>
       </ContentWrapper>
     </CanvasContainer>
   );
@@ -139,6 +141,9 @@ const ContentWrapper = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
+
+    color: red;
+    font-size: 18px;
   }
 `;
 
