@@ -26,13 +26,33 @@ const Container = styled.div`
   }
 `;
 
+const scaleFactor = window.api.getScaleFactor();
+
+const noop = () => {};
+
+function createPromise(): [() => void, Promise<undefined>] {
+  let resolve;
+  const p = new Promise<undefined>((res) => {
+    resolve = res;
+  });
+  return [resolve, p];
+}
+
 export default function App() {
   const [windowDisplay, setWindowDisplay] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const [readyToCut, setReadyToCut] = useState<Promise<undefined>>();
+  const resolveRef = useRef(noop);
+
   useEffect(() => {
     const handler = (_, show: boolean): void => {
       setWindowDisplay(show);
+      if (show) {
+        const [resolve, p] = createPromise();
+        setReadyToCut(p);
+        resolveRef.current = resolve;
+      }
     };
     window.electronApi.ipcRenderer.on('window-display', handler);
 
@@ -43,17 +63,12 @@ export default function App() {
 
   useEffect(() => {
     async function screenshot(): Promise<void> {
-      // const result = await window.electronApi.ipcRenderer.invoke(
-      //   'check-screen'
-      // );
-      // console.log('check screen ', result);
-
-      // systemPreferences.askForMediaAccess(mediaType);
-
       try {
         const dataUrl: string = await window.electronApi.ipcRenderer.invoke(
           EVENTS.TASK_DO_SCREEN_SHOT
         );
+        // resolve promise to trigger mask rendering
+        resolveRef.current();
         const canvas = canvasRef.current;
         if (canvas) {
           const img = new Image();
@@ -61,7 +76,7 @@ export default function App() {
           img.onload = () => {
             context?.drawImage(img, 0, 0);
             // set transform to scale up pixel density
-            context?.setTransform(1.5, 0, 0, 1.5, 0, 0);
+            context?.setTransform(scaleFactor, 0, 0, scaleFactor, 0, 0);
           };
           img.src = dataUrl;
         }
@@ -90,38 +105,44 @@ export default function App() {
     const context = canvasRef.current?.getContext('2d');
     if (!context) return;
 
-    // active a rect area and clip it.
-    context.rect(start.x, start.y, end.x - start.x, end.y - start.y);
-    context.clip();
-    const imageData = context.getImageData(
+    console.log('handleCut', start, end);
+
+    const [x, y, w, h] = [
       start.x,
       start.y,
       end.x - start.x,
-      end.y - start.y
-    );
+      end.y - start.y,
+    ].map((i) => i * scaleFactor); // restore by scaleFactor
+
+    // active a rect area and clip it.
+    context.rect(x, y, w, h);
+    context.clip();
+    const imageData = context.getImageData(x, y, w, h);
 
     // draw clip content to a new canvas and export.
     const newCanvas = document.createElement('canvas');
-    newCanvas.width = Math.abs(start.x - end.x);
-    newCanvas.height = Math.abs(start.y - end.y);
+    newCanvas.width = Math.abs(w);
+    newCanvas.height = Math.abs(h);
     newCanvas.getContext('2d')?.putImageData(imageData, 0, 0);
 
     const img = newCanvas.toDataURL();
+    ocrText(img);
+
     window.api.saveImg(img);
-    console.log(img);
 
     clearRect();
-    ocrText(img);
   }
 
   return (
     <Container>
       <canvas
         ref={canvasRef}
-        width={screen.width * 1.5}
-        height={screen.height * 1.5}
+        width={screen.width * scaleFactor}
+        height={screen.height * scaleFactor}
       />
-      <RectCutArea handleCut={handleCut} show={windowDisplay} />
+      {windowDisplay && (
+        <RectCutArea readyToCutPromise={readyToCut} handleCut={handleCut} />
+      )}
     </Container>
   );
 }

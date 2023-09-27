@@ -20,8 +20,10 @@ function Home(): JSX.Element {
   const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
     console.log('e', value);
-    window.api.store.set('api-key', value);
+    window.api.store.set('google-translate-api-key', value);
   };
+
+  console.log('scaleFactor,', window.api.store.get('screen-scale-factor'));
 
   return (
     <Typography style={{ overflowY: 'scroll' }}>
