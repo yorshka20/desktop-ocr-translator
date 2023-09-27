@@ -2,6 +2,7 @@ import { electronAPI } from '@electron-toolkit/preload';
 import { contextBridge } from 'electron';
 import { writeFileSync } from 'fs';
 
+import { getScreenScaleFactor } from './command';
 import { store } from './store';
 
 // Custom APIs for renderer
@@ -19,6 +20,7 @@ const api = {
       writeFileSync(`screenshot/${Date.now()}.png`, new Uint8Array(array))
     );
   },
+  getScaleFactor: () => store.get('screen-scale-factor'),
 };
 
 export type API = typeof api;
@@ -39,3 +41,13 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api;
 }
+
+// prepare some config which is necessary for renderer process.
+
+async function initConfig() {
+  // get and store the screen scaleFactor. will be used in screenshot.
+  const factor = await getScreenScaleFactor();
+  store.set('screen-scale-factor', factor);
+}
+
+initConfig();

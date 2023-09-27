@@ -18,13 +18,11 @@ export function setupScreenShotListener(): void {
 
     const content = sources[0].thumbnail.toDataURL();
 
-    // new Promise(() =>
-    //   writeFileSync(
-    //     `screenshot/${Date.now()}.png`,
-    //     sources[0].thumbnail.toPNG()
-    //   )
-    // );
     return content;
+  });
+
+  ipcMain.handle(EVENTS.TASK_GET_SCREEN_SCALE_FACTOR, () => {
+    return screen.getPrimaryDisplay().scaleFactor;
   });
 }
 
