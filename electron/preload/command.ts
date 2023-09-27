@@ -24,3 +24,11 @@ export function saveImg(dataURI: string) {
     writeFileSync(`screenshot/${Date.now()}.png`, new Uint8Array(array))
   );
 }
+
+export function quitScreenShot() {
+  ipcRenderer.send(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, '', false);
+}
+
+export async function doScreenshot() {
+  return await ipcRenderer.invoke(EVENTS.TASK_DO_SCREEN_SHOT);
+}

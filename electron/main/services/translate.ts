@@ -1,7 +1,7 @@
 // Imports the Google Cloud client library
 import { v2 } from '@google-cloud/translate';
 
-import { TRANSLATE_STORAGE_KEY } from '../constants';
+import { TRANSLATE_STORAGE_KEY } from '../../constants';
 
 // Creates a client
 const translate = new v2.Translate();
@@ -55,8 +55,11 @@ export async function translateText(text: string, target: Lang = 'zh') {
   // multiple texts.
 
   const [translations] = await translate.translate(text, target);
-  // console.log('translations', translations);
-  updateStorage(text, translations);
+
+  // do it in spare time.
+  setTimeout(() => {
+    updateStorage(text, translations);
+  });
 
   return translations;
 }

@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { EVENTS } from '../../electron/constants';
-
 export interface Position {
   x: number;
   y: number;
@@ -52,11 +50,13 @@ const CanvasContainer = styled.div`
 interface RectCutAreaProps {
   handleCut: (start: Position, end: Position) => void;
   readyToCutPromise: Promise<undefined> | undefined;
+  quit: () => void;
 }
 
 export function RectCutArea({
   handleCut,
   readyToCutPromise,
+  quit,
 }: RectCutAreaProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -150,22 +150,12 @@ export function RectCutArea({
     document.removeEventListener('keydown', handleEnter);
     canvasRef.current?.removeEventListener('mousedown', handleMouseDown);
 
-    clearRect();
-
-    window.electronApi.ipcRenderer.send(
-      EVENTS.WINDOW_DISPLAY_SCREEN_SHOT,
-      '',
-      false
-    );
+    quitScreenshot();
   }
 
-  function handleCancel() {
+  function quitScreenshot() {
     clearRect();
-    window.electronApi.ipcRenderer.send(
-      EVENTS.WINDOW_DISPLAY_SCREEN_SHOT,
-      '',
-      false
-    );
+    quit();
   }
 
   useEffect(() => {
@@ -174,12 +164,12 @@ export function RectCutArea({
 
     canvas.addEventListener('mousedown', handleMouseDown);
     // right click to quit. or you can use esc key to quit screenshot mode.
-    canvas.addEventListener('contextmenu', handleCancel);
+    canvas.addEventListener('contextmenu', quitScreenshot);
 
     return () => {
       clearRect();
       canvas.removeEventListener('mousedown', handleMouseDown);
-      canvas.removeEventListener('contextmenu', handleCancel);
+      canvas.removeEventListener('contextmenu', quitScreenshot);
     };
   }, []);
 

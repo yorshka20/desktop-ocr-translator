@@ -1,18 +1,25 @@
 import { electronAPI } from '@electron-toolkit/preload';
 import { contextBridge } from 'electron';
 
-import { ocrTextOnline } from '../main/ocr';
-import { translateText } from '../main/translate';
-import { getScreenScaleFactor, saveImg } from './command';
+import { ocrTextOnline } from '../main/services/ocr';
+import { translateText } from '../main/services/translate';
+import {
+  doScreenshot,
+  getScreenScaleFactor,
+  quitScreenShot,
+  saveImg,
+} from './command';
 import { store } from './store';
 
 // Custom APIs for renderer
 const api = {
-  store,
-  saveImg,
+  doScreenshot,
   getScaleFactor,
-  translateText,
   ocrTextOnline,
+  quitScreenShot,
+  saveImg,
+  store,
+  translateText,
 };
 
 export type API = typeof api;

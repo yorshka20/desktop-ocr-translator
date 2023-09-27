@@ -11,3 +11,7 @@
 - content to be sent between main and renderer process should be able to be cloned by JSON.
 
 - when capture screen in macos, you should get the access right of screen from system. you should do it by systemPreferences api. while in windows, there is no such a problem, you will always have the access right of screen capturing.
+
+- google-cloud libs cannot be used in renderer process, put it in main process and expose the function via preload.
+
+- it's better to keep all ipc methods in preload script. you don't need to do it in renderer process, so just do it in main process.

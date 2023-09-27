@@ -11,8 +11,7 @@ export const store = {
   get<T extends keyof StorageType>(key: T): StorageType[T] {
     return storage[key];
   },
-  set<T extends keyof StorageType>(property: T, val: StorageType[T]): void {
-    // ipcRenderer.send('electron-store-set', property, val);
-    storage[property] = val;
+  set<T extends keyof StorageType>(key: T, val: StorageType[T]): void {
+    storage[key] = val;
   },
 };

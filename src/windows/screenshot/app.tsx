@@ -2,7 +2,6 @@ import { type Position, RectCutArea } from '@renderer/components/rectCutArea';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { EVENTS } from '../../../electron/constants';
 import { handleOCR, init } from './ocr';
 
 // setup ocr worker
@@ -64,9 +63,7 @@ export default function App() {
   useEffect(() => {
     async function screenshot(): Promise<void> {
       try {
-        const dataUrl: string = await window.electronApi.ipcRenderer.invoke(
-          EVENTS.TASK_DO_SCREEN_SHOT
-        );
+        const dataUrl: string = await window.api.doScreenshot();
         // resolve promise to trigger mask rendering
         resolveRef.current();
         const canvas = canvasRef.current;
@@ -129,6 +126,12 @@ export default function App() {
     window.api.saveImg(img);
 
     clearRect();
+
+    quit();
+  }
+
+  function quit() {
+    window.api.quitScreenShot();
   }
 
   return (
@@ -139,7 +142,11 @@ export default function App() {
         height={screen.height * scaleFactor}
       />
       {windowDisplay && (
-        <RectCutArea readyToCutPromise={readyToCut} handleCut={handleCut} />
+        <RectCutArea
+          readyToCutPromise={readyToCut}
+          quit={quit}
+          handleCut={handleCut}
+        />
       )}
     </Container>
   );
