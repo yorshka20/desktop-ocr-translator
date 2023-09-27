@@ -34,7 +34,6 @@ export function getScreenSize(): Electron.Size {
 
 export function setupShowWindowListener(window: BrowserWindow): void {
   ipcMain.on(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, (_, show: boolean) => {
-    console.log('setupShowWindowListener', show);
     if (show) {
       window.setKiosk(true);
       window.show();

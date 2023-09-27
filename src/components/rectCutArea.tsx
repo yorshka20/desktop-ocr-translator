@@ -100,8 +100,6 @@ export function RectCutArea({
     context.clearRect(0, 0, screen.width, screen.height);
     context.fillStyle = 'rgba(102, 102, 102, 0.6)';
     context.fillRect(0, 0, screen.width, screen.height);
-
-    console.log('makeMask');
   }
 
   function handleMouseMove(e: MouseEvent) {
@@ -189,7 +187,7 @@ export function RectCutArea({
     <CanvasContainer>
       <ContentWrapper className={'show'}>
         <canvas width={screen.width} height={screen.height} ref={canvasRef} />
-        <div className="tool">screen show area</div>
+        {/* <div className="tool">screen show area</div> */}
       </ContentWrapper>
     </CanvasContainer>
   );

@@ -114,9 +114,6 @@ export default function App() {
       end.y - start.y,
     ].map((i) => i * scaleFactor); // restore by scaleFactor
 
-    // active a rect area and clip it.
-    context.rect(x, y, w, h);
-    context.clip();
     const imageData = context.getImageData(x, y, w, h);
 
     // draw clip content to a new canvas and export.
