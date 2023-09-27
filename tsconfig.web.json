@@ -5,7 +5,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "electron/constants.ts",
-    "electron/preload/*.d.ts",
+    "electron/preload/*.d.ts", "electron/main/translate.ts",
   ],
   "compilerOptions": {
     "composite": true,

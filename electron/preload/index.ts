@@ -1,26 +1,18 @@
 import { electronAPI } from '@electron-toolkit/preload';
 import { contextBridge } from 'electron';
-import { writeFileSync } from 'fs';
 
-import { getScreenScaleFactor } from './command';
+import { ocrTextOnline } from '../main/ocr';
+import { translateText } from '../main/translate';
+import { getScreenScaleFactor, saveImg } from './command';
 import { store } from './store';
 
 // Custom APIs for renderer
 const api = {
   store,
-  saveImg: (dataURI: string) => {
-    if (!dataURI) return;
-
-    const binary = atob(dataURI.split(',')[1]);
-    const array: number[] = [];
-    for (let i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-    }
-    new Promise(() =>
-      writeFileSync(`screenshot/${Date.now()}.png`, new Uint8Array(array))
-    );
-  },
-  getScaleFactor: () => store.get('screen-scale-factor'),
+  saveImg,
+  getScaleFactor,
+  translateText,
+  ocrTextOnline,
 };
 
 export type API = typeof api;
@@ -43,6 +35,10 @@ if (process.contextIsolated) {
 }
 
 // prepare some config which is necessary for renderer process.
+
+function getScaleFactor() {
+  return store.get('screen-scale-factor');
+}
 
 async function initConfig() {
   // get and store the screen scaleFactor. will be used in screenshot.

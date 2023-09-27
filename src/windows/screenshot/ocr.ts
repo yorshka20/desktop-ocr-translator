@@ -4,7 +4,7 @@ const worker = await createWorker({
   logger: (m) => console.log(m),
 });
 
-type Lang = 'jpn' | 'eng';
+type Lang = 'jpn' | 'eng' | 'zh';
 
 export async function init(lang: Lang = 'eng') {
   await worker.loadLanguage(lang);
@@ -24,9 +24,9 @@ export async function ocrText(img: string) {
   const {
     data: { text },
   } = data;
-  console.log('originText', text);
   const nText = postProcessText(text);
-  console.log(nText);
+
+  return nText;
 }
 
 const replaceMap: Array<[string, string]> = [
@@ -46,4 +46,26 @@ function postProcessText(text: string) {
     text = text.replaceAll(key, value);
   }
   return text;
+}
+
+const translateLangMap: Record<Lang, string> = {
+  jpn: 'ja',
+  eng: 'en',
+  zh: 'zh',
+};
+
+export async function handleOCR(img: string, lang: Lang = 'zh') {
+  // const text = await window.api.ocrTextOnline(img);
+  // console.log('ocrOnline', text);
+  const textContent = await ocrText(img);
+
+  console.log('textContent');
+  console.log(textContent);
+
+  const result = await window.api.translateText(
+    textContent,
+    translateLangMap[lang] as any
+  );
+
+  console.log('translate result', result);
 }

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { EVENTS } from '../../../electron/constants';
-import { init, ocrText } from './ocr';
+import { handleOCR, init } from './ocr';
 
 // setup ocr worker
 init('jpn');
@@ -123,7 +123,8 @@ export default function App() {
     newCanvas.getContext('2d')?.putImageData(imageData, 0, 0);
 
     const img = newCanvas.toDataURL();
-    ocrText(img);
+
+    handleOCR(img);
 
     window.api.saveImg(img);
 

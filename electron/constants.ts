@@ -4,3 +4,5 @@ export enum EVENTS {
   TASK_DO_SCREEN_SHOT = 'screen-shot',
   TASK_GET_SCREEN_SCALE_FACTOR = 'get-screen-scale-factor',
 }
+
+export const TRANSLATE_STORAGE_KEY = 'translate-cache';

@@ -83,6 +83,7 @@
     "@electron-toolkit/preload": "^1.0.3",
     "@electron-toolkit/utils": "^1.0.2",
     "@google-cloud/translate": "^8.0.2",
+    "@google-cloud/vision": "^4.0.2",
     "asar": "^3.2.0",
     "axios": "^1.5.0",
     "tesseract.js": "^4.1.2"

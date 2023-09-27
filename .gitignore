@@ -8,3 +8,6 @@ yarn-*.*
 .env.*
 
 *.local.*
+
+
+screenshot/*.png

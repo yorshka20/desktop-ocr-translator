@@ -17,6 +17,9 @@ dependencies:
   '@google-cloud/translate':
     specifier: ^8.0.2
     version: 8.0.2
+  '@google-cloud/vision':
+    specifier: ^4.0.2
+    version: 4.0.2
   asar:
     specifier: ^3.2.0
     version: 3.2.0
@@ -1284,6 +1287,18 @@ packages:
       - supports-color
     dev: false
 
+  /@google-cloud/vision@4.0.2:
+    resolution: {integrity: sha512-VhYcxDXmkbQjCtAfPiQcW8bB4a+H5lFks2vDG4WQabKWa3VveyOmmbqHpNlH6JVD/sdYHz3h8koCcyHxE13oEA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@google-cloud/promisify': 4.0.0
+      google-gax: 4.0.4
+      is: 3.3.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@grpc/grpc-js@1.9.3:
     resolution: {integrity: sha512-b8iWtdrYIeT5fdZdS4Br/6h/kuk0PW5EVBUGk1amSbrpL8DlktJD43CdcCWwRdd6+jgwHhADSbL9CsNnm6EUPA==}
     engines: {node: ^8.13.0 || >=10.10.0}
@@ -2075,8 +2090,8 @@ packages:
     hasBin: true
     dev: true
 
-  /agent-base@6.0.2:
-    resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
+  /agent-base@6.0.0:
+    resolution: {integrity: sha512-j1Q7cSCqN+AwrmDd+pzgqc0/NpC655x2bUf5ZjRIO77DcNBFmh+OgRNzF6OKdCC9RSCb19fGd99+bhXFdkRNqw==}
     engines: {node: '>= 6.0.0'}
     dependencies:
       debug: 4.3.4(supports-color@5.5.0)
@@ -4254,7 +4269,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       '@tootallnate/once': 2.0.0
-      agent-base: 6.0.2
+      agent-base: 6.0.0
       debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
@@ -4270,7 +4285,7 @@ packages:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
     dependencies:
-      agent-base: 6.0.2
+      agent-base: 6.0.0
       debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
@@ -4602,6 +4617,10 @@ packages:
       call-bind: 1.0.2
       get-intrinsic: 1.2.1
     dev: true
+
+  /is@3.3.0:
+    resolution: {integrity: sha512-nW24QBoPcFGGHJGUwnfpI7Yc5CdqWNdsyHQszVE/z2pKHXzh7FZ5GWhJqSyaQ9wMkQnsTx+kAI8bHlCX4tKdbg==}
+    dev: false
 
   /isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
