@@ -13,7 +13,8 @@ export function createContentWindow(
     height: 600,
     minWidth: 400,
     minHeight: 600,
-    frame: false,
+    frame: true,
+    autoHideMenuBar: true,
     titleBarStyle: 'default',
     show: false, // do not show window by default
     webPreferences: {
@@ -36,6 +37,13 @@ export function createContentWindow(
   contentWindow.once('ready-to-show', () => {
     setupShowWindowListener(contentWindow);
     contentWindow.show();
+  });
+
+  contentWindow.on('close', (e) => {
+    // do not really close the window. just hide the window.
+    e.preventDefault();
+
+    contentWindow.hide();
   });
 
   // add screen-shot listener

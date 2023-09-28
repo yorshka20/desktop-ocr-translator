@@ -51,14 +51,14 @@ const Container = styled.div`
   .setting-icon {
     position: absolute;
     top: 5px;
-    left: 5px;
+    right: 10px;
 
     font-size: 15px;
 
     cursor: pointer;
   }
 
-  .close-icon {
+  /* .close-icon {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -66,7 +66,7 @@ const Container = styled.div`
     font-size: 15px;
 
     cursor: pointer;
-  }
+  } */
 `;
 
 function ContentContainer({ show }: { show: boolean }) {
@@ -96,22 +96,22 @@ function ContentContainer({ show }: { show: boolean }) {
   }
 
   function handleSetting() {
-    window.api.displayContentWindow(true);
+    window.api.displayMainWindow(true);
   }
 
   return (
-    <Container ref={containerRef}>
+    <Container draggable={true} ref={containerRef}>
       <SettingOutlined
         onClick={handleSetting}
         className={'setting-icon'}
         rev={undefined}
       />
 
-      <CloseOutlined
+      {/* <CloseOutlined
         onClick={handleHideWindow}
         className={'close-icon'}
         rev={undefined}
-      />
+      /> */}
 
       <Description
         text={ocrText}
@@ -119,15 +119,17 @@ function ContentContainer({ show }: { show: boolean }) {
         className="original-text"
         header={'original text'}
       >
-        {textAnalyzed.map((text, index) => (
-          <TextBlock
-            key={index}
-            word={text.word}
-            pronunciation={text.pronunciation}
-            mark={getMark(text.pos)}
-            color={getColor(text.pos)}
-          />
-        ))}
+        {textAnalyzed.length
+          ? textAnalyzed.map((text, index) => (
+              <TextBlock
+                key={index}
+                word={text.word}
+                pronunciation={text.pronunciation}
+                mark={getMark(text.pos)}
+                color={getColor(text.pos)}
+              />
+            ))
+          : undefined}
       </Description>
 
       <Description

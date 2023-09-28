@@ -2,7 +2,7 @@ import { CopyOutlined, SoundOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 interface Props {
-  children: JSX.Element | JSX.Element[] | string;
+  children: JSX.Element | JSX.Element[] | string | undefined;
   header: string;
   className?: string;
   text?: string;
@@ -85,7 +85,7 @@ export function Description({
   return (
     <Container className={`${className}`}>
       <div className={'header'}>{header}</div>
-      <div className="content">{children}</div>
+      <div className="content">{children || text}</div>
 
       <div className={'tool'}>
         <SoundOutlined

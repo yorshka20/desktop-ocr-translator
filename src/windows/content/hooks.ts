@@ -3,23 +3,24 @@ import { useEffect, useState } from 'react';
 import { type MecabQueryItem, analyzeSentence } from './language-analysis';
 
 export function useTranslate(text: string) {
-  const [content, setContent] = useState(text);
+  const [content, setContent] = useState('');
 
   useEffect(() => {
     if (!text) {
       return;
     }
 
-    window.api.translateText(text, 'ja').then((content) => {
-      setContent(content);
-    });
+    setContent(text);
+    // window.api.translateText(text, 'ja').then((content) => {
+    //   setContent(content);
+    // });
   }, [text]);
 
   return content;
 }
 
 export function useOCRContent() {
-  const [ocrText, setOcrText] = useState('');
+  const [ocrText, setOcrText] = useState('translate content');
 
   useEffect(() => {
     const handler = (_, content: string) => {

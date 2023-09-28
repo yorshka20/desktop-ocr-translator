@@ -16,7 +16,9 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
   ? join(process.env.DIST_ELECTRON, '../public')
   : process.env.DIST;
 
-const windowMaps = {};
+type WindowName = 'main' | 'screenshot' | 'content';
+
+const windowMaps = {} as Record<WindowName, BrowserWindow>;
 
 function getWindow(name: string) {
   return windowMaps[name];
@@ -38,7 +40,8 @@ app.whenReady().then(() => {
 
   registerGlobalShortcut();
 
-  createMainWindow();
+  const mainWindow = createMainWindow();
+  windowMaps['main'] = mainWindow;
 
   const screenshotWindow = createScreenShotWindow(getWindow);
   windowMaps['screenshot'] = screenshotWindow;

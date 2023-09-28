@@ -1,11 +1,11 @@
 import { is } from '@electron-toolkit/utils';
-import { BrowserWindow, ipcMain, shell, systemPreferences } from 'electron';
+import { BrowserWindow, ipcMain, shell } from 'electron';
 import { join } from 'path';
 
 import { DEV_SERVER_URL, EVENTS, preload } from '../../constants';
 import { getWindowHtmlPath } from '../../utils';
 
-export function createMainWindow(): void {
+export function createMainWindow(): BrowserWindow {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -27,15 +27,22 @@ export function createMainWindow(): void {
     setupMainWindowListener(mainWindow);
   });
 
+  mainWindow.on('close', (e) => {
+    // do not really close the window. just hide the window.
+    e.preventDefault();
+
+    mainWindow.hide();
+  });
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
     return { action: 'deny' };
   });
 
-  ipcMain.handle('check-screen', async () => {
-    const result = await systemPreferences.getMediaAccessStatus('screen');
-    return result;
-  });
+  // ipcMain.handle('check-screen', async () => {
+  //   const result = await systemPreferences.getMediaAccessStatus('screen');
+  //   return result;
+  // });
 
   const indexHtml = join(process.env.DIST || '', getWindowHtmlPath('main'));
 
@@ -52,6 +59,8 @@ export function createMainWindow(): void {
   } else {
     mainWindow.loadFile(indexHtml);
   }
+
+  return mainWindow;
 }
 
 function setupMainWindowListener(window: BrowserWindow) {
