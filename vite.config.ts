@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { join, resolve } from 'path';
-import { defineConfig } from 'vite';
+import { type UserConfig, defineConfig } from 'vite';
 import electron from 'vite-electron-plugin';
 import { customStart, loadViteEnv } from 'vite-electron-plugin/plugin';
 import renderer from 'vite-plugin-electron-renderer';
@@ -14,8 +14,8 @@ export default defineConfig(({ command }) => {
       outDir: 'dist-electron/renderer',
       rollupOptions: {
         input: {
-          index: join(__dirname, 'index.html'),
-          screenshot: join(__dirname, 'screenshot/index.html'),
+          index: join(__dirname, 'src/windows/main/index.html'),
+          screenshot: join(__dirname, 'src/windows/screenshot/index.html'),
         },
       },
     },
@@ -53,4 +53,4 @@ export default defineConfig(({ command }) => {
       }),
     ],
   };
-});
+}) as UserConfig;

@@ -5,12 +5,12 @@
     "electron/main/*",
     "electron/preload/*",
     "vite.config.ts",
-    "vite.config.ts",
     "electron/constants.ts",
     "electron/main/**/*.ts"
   ],
   "compilerOptions": {
     "composite": true,
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext"
   }
 }

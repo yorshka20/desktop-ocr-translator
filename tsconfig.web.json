@@ -9,9 +9,16 @@
     "electron/main/translate.ts"
   ],
   "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Node16",
+    "strict": true,
+    "target": "ESNext",
+    "skipLibCheck": true,
     "paths": {
       "@renderer/*": ["src/*"]
     }
