@@ -39,13 +39,6 @@ export function createScreenShotWindow(
     setupShowWindowListener(screenShotWindow);
   });
 
-  screenShotWindow.on('close', (e) => {
-    // do not really close the window. just hide the window.
-    e.preventDefault();
-
-    screenShotWindow.hide();
-  });
-
   // add screen-shot listener
   setupScreenShotListener(getWindow);
 

@@ -21,3 +21,9 @@
 - you can not use `ipcMain` in preload script.
 
 - `ipcRenderer` use `send` method to emit message, not `emit`. you will not receive anything when using `ipcRenderer.emit`.
+
+- vite will transfer all module into esm in order to load it in browser directly. vite will rewrite the relative path and make it accessible via http server.
+
+- for the lib `mecab-wasm` used in this project, vite will not load the 2 file named `libmecab.wasm` and `libmecab.data` in dev mode, so you will get error when initializing this module. to fix this error we can import the `mecab-wasm` lib by url, and this will make vite skip the cjs->esm process and successfully load the desired file.
+
+- also, we can use a wasm-plugin to load the `mecab-wasm` module and exclude it from optimizeDeps which vite will conduct in dev mode. both remote import and wasm-plugin will work. in this project, we choose the plugin method.

@@ -1,5 +1,5 @@
 import { createPromise } from '@renderer/utils';
-import Mecab from 'https://unpkg.com/mecab-wasm@1.0.2/lib/mecab.js?url';
+import Mecab from 'mecab-wasm';
 import { toHiragana } from 'wanakana';
 
 export interface MecabQueryItem {

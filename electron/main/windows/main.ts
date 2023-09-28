@@ -28,13 +28,6 @@ export function createMainWindow(): BrowserWindow {
     setupMainWindowListener(mainWindow);
   });
 
-  mainWindow.on('close', (e) => {
-    // do not really close the window. just hide the window.
-    e.preventDefault();
-
-    mainWindow.hide();
-  });
-
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
     return { action: 'deny' };

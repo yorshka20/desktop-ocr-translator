@@ -5,6 +5,7 @@ import electron from 'vite-electron-plugin';
 import { customStart, loadViteEnv } from 'vite-electron-plugin/plugin';
 import renderer from 'vite-plugin-electron-renderer';
 import svgr from 'vite-plugin-svgr';
+import wasm from 'vite-plugin-wasm';
 
 export default defineConfig(({ command }) => {
   const sourcemap = command === 'serve' || !!process.env.VSCODE_DEBUG;
@@ -19,9 +20,6 @@ export default defineConfig(({ command }) => {
           content: join(__dirname, 'src/windows/content/index.html'),
         },
       },
-      // commonjsOptions: {
-      //   include: ['node_modules/mecab-wasm/lib/*', /node_modules/],
-      // },
     },
     resolve: {
       alias: {
@@ -30,11 +28,12 @@ export default defineConfig(({ command }) => {
       },
     },
     optimizeDeps: {
-      exclude: ['node_modules/mecab-wasm/*'],
+      exclude: ['mecab-wasm'],
     },
     plugins: [
       react(),
       svgr(),
+      wasm(),
       electron({
         include: ['electron'],
         transformOptions: {
