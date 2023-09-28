@@ -1,4 +1,5 @@
-// import Mecab from 'mecab-wasm';
+import { createPromise } from '@renderer/utils';
+import Mecab from 'mecab-wasm';
 import { toHiragana } from 'wanakana';
 
 export interface MecabQueryItem {
@@ -14,32 +15,35 @@ export interface MecabQueryItem {
   pronunciation: string;
 }
 
+const [resolve, p] = createPromise();
+
 // to fix the production bundle error with parcel, we should fix the parcel/runtime-js in packageJson with resolutions.
-// Mecab.waitReady();
+Mecab.waitReady().then(() => resolve());
 
-export function analyzeSentence(content: string) {
-  return [];
-  // const result = Mecab.query(content);
+export async function analyzeSentence(content: string) {
+  await p;
 
-  // return result.map((word) => {
-  //   const obj = {
-  //     ...word,
-  //   };
+  const result = Mecab.query(content);
 
-  //   if (
-  //     obj.pos === WordType.AUX ||
-  //     obj.pos === WordType.AUX_VERB ||
-  //     obj.pos === WordType.MARK
-  //   ) {
-  //     obj.pronunciation = '';
-  //   }
+  return result.map((word) => {
+    const obj = {
+      ...word,
+    };
 
-  //   obj.pronunciation = toHiragana(obj.pronunciation);
+    if (
+      obj.pos === WordType.AUX ||
+      obj.pos === WordType.AUX_VERB ||
+      obj.pos === WordType.MARK
+    ) {
+      obj.pronunciation = '';
+    }
 
-  //   console.log('analyze', obj.word, obj.pos, obj.pronunciation);
+    obj.pronunciation = toHiragana(obj.pronunciation);
 
-  //   return obj;
-  // });
+    console.log('analyze', obj.word, obj.pos, obj.pronunciation);
+
+    return obj;
+  });
 }
 
 export enum WordType {

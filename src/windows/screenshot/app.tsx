@@ -1,4 +1,5 @@
 import { type Position, RectCutArea } from '@renderer/components/rectCutArea';
+import { createPromise, noop } from '@renderer/utils';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -23,16 +24,6 @@ const Container = styled.div`
 `;
 
 const scaleFactor = window.api.getScaleFactor();
-
-const noop = () => {};
-
-function createPromise(): [() => void, Promise<undefined>] {
-  let resolve;
-  const p = new Promise<undefined>((res) => {
-    resolve = res;
-  });
-  return [resolve, p];
-}
 
 export default function App() {
   const [windowDisplay, setWindowDisplay] = useState(false);

@@ -49,8 +49,9 @@ export function useTextAnalyze(text: string) {
     if (!text) return;
 
     // do analyzeSentence
-    const analyzedContent = analyzeSentence(text);
-    setTextAnalyzed(analyzedContent);
+    analyzeSentence(text).then((analyzedContent) => {
+      setTextAnalyzed(analyzedContent);
+    });
   }, [text]);
 
   return textAnalyzed;

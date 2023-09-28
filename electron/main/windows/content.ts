@@ -15,6 +15,7 @@ export function createContentWindow(
     minHeight: 600,
     frame: true,
     autoHideMenuBar: true,
+    alwaysOnTop: true,
     titleBarStyle: 'default',
     show: false, // do not show window by default
     webPreferences: {

@@ -16,6 +16,7 @@ export function createScreenShotWindow(
     minHeight: 600,
     show: false, // do not show window by default
     autoHideMenuBar: true,
+    alwaysOnTop: true,
     frame: true, // no border
     titleBarStyle: 'hidden', // no title
     transparent: true,

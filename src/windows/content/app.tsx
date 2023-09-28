@@ -1,4 +1,4 @@
-import { CloseOutlined, SettingOutlined } from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 import { Description } from '@renderer/components/description';
 import { TextBlock } from '@renderer/components/text-block';
 import { useRef } from 'react';
@@ -57,16 +57,6 @@ const Container = styled.div`
 
     cursor: pointer;
   }
-
-  /* .close-icon {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-
-    font-size: 15px;
-
-    cursor: pointer;
-  } */
 `;
 
 function ContentContainer({ show }: { show: boolean }) {
@@ -91,10 +81,6 @@ function ContentContainer({ show }: { show: boolean }) {
     return markMap[wordType];
   };
 
-  function handleHideWindow() {
-    window.api.displayContentWindow(false);
-  }
-
   function handleSetting() {
     window.api.displayMainWindow(true);
   }
@@ -106,12 +92,6 @@ function ContentContainer({ show }: { show: boolean }) {
         className={'setting-icon'}
         rev={undefined}
       />
-
-      {/* <CloseOutlined
-        onClick={handleHideWindow}
-        className={'close-icon'}
-        rev={undefined}
-      /> */}
 
       <Description
         text={ocrText}
