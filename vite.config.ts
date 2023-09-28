@@ -8,7 +8,7 @@ import svgr from 'vite-plugin-svgr';
 
 export default defineConfig(({ command }) => {
   const sourcemap = command === 'serve' || !!process.env.VSCODE_DEBUG;
-  console.log('rollupoptions', join(__dirname, 'src'));
+
   return {
     build: {
       outDir: 'dist-electron/renderer',
@@ -19,11 +19,18 @@ export default defineConfig(({ command }) => {
           content: join(__dirname, 'src/windows/content/index.html'),
         },
       },
+      // commonjsOptions: {
+      //   include: ['node_modules/mecab-wasm/lib/*', /node_modules/],
+      // },
     },
     resolve: {
       alias: {
         '@renderer': resolve(__dirname, 'src'),
+        '@electron': resolve(__dirname, 'electron'),
       },
+    },
+    optimizeDeps: {
+      exclude: ['node_modules/mecab-wasm/*'],
     },
     plugins: [
       react(),
