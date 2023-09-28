@@ -12,17 +12,18 @@ export const getScreenScaleFactor = async () => {
   return factor;
 };
 
-export function saveImg(dataURI: string) {
-  if (!dataURI) return;
+export function saveImg(dataURI: string): string {
+  if (!dataURI) return '';
 
   const binary = atob(dataURI.split(',')[1]);
   const array: number[] = [];
   for (let i = 0; i < binary.length; i++) {
     array.push(binary.charCodeAt(i));
   }
-  new Promise(() =>
-    writeFileSync(`screenshot/${Date.now()}.png`, new Uint8Array(array))
-  );
+
+  const name = `${Date.now()}`;
+  writeFileSync(`screenshot/${name}.png`, new Uint8Array(array));
+  return name;
 }
 
 export function quitScreenShot() {

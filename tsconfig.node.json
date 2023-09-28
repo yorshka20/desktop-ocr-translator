@@ -1,6 +1,14 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
-  "include": ["electron.vite.config.*", "electron/main/*", "electron/preload/*", "vite.config.ts", "vite.config.ts","electron/constants.ts", "electron/main/services/ocr.ts"],
+  "include": [
+    "electron.vite.config.*",
+    "electron/main/*",
+    "electron/preload/*",
+    "vite.config.ts",
+    "vite.config.ts",
+    "electron/constants.ts",
+    "electron/main/**/*.ts"
+  ],
   "compilerOptions": {
     "composite": true,
     "moduleResolution": "NodeNext"

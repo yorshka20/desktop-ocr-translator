@@ -1,6 +1,11 @@
 import vision from '@google-cloud/vision';
 
-export async function ocrTextOnline(img: string) {
+type LangHintType = 'ja' | 'en' | 'zh';
+
+export async function ocrTextOnline(
+  img: string,
+  langHint: LangHintType = 'ja'
+) {
   // Creates a client
   const client = new vision.ImageAnnotatorClient();
 
@@ -12,15 +17,17 @@ export async function ocrTextOnline(img: string) {
   // Performs text detection on the local file
   const [result] = await client.textDetection({
     image: {
-      content: img,
+      // use base64 encode img. should cut out the head part.
+      content: Buffer.from(img.replace('data:image/png;base64,', ''), 'base64'),
     },
     imageContext: {
-      languageHints: ['ja'],
+      languageHints: [langHint],
     },
   });
-  const detections = result.textAnnotations || [];
-  console.log('Text:');
-  detections.forEach((text) => console.log(text));
+  // there are textAnnotations and fullTextAnnotation. we only need full text.
+  const detection = result.fullTextAnnotation;
+  const text = detection?.text || '';
+  console.log('Text:', text);
 
-  return detections;
+  return text;
 }

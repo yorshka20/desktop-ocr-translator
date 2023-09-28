@@ -2,10 +2,7 @@ import { type Position, RectCutArea } from '@renderer/components/rectCutArea';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { handleOCR, init } from './ocr';
-
-// setup ocr worker
-init('jpn');
+import { handleOCR } from './ocr';
 
 const Container = styled.div`
   margin: 0;
