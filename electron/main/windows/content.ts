@@ -23,6 +23,7 @@ export function createContentWindow(
       sandbox: false,
       contextIsolation: true,
       devTools: true,
+      webSecurity: false,
     },
   });
 

@@ -18,6 +18,7 @@ export function createMainWindow(): BrowserWindow {
       sandbox: false,
       contextIsolation: true,
       devTools: true,
+      webSecurity: false,
     },
   });
 

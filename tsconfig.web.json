@@ -16,7 +16,6 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "module": "ESNext",
-    "moduleResolution": "Node16",
     "strict": true,
     "target": "ESNext",
     "skipLibCheck": true,

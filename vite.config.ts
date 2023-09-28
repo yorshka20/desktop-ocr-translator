@@ -16,6 +16,7 @@ export default defineConfig(({ command }) => {
         input: {
           index: join(__dirname, 'src/windows/main/index.html'),
           screenshot: join(__dirname, 'src/windows/screenshot/index.html'),
+          content: join(__dirname, 'src/windows/content/index.html'),
         },
       },
     },
