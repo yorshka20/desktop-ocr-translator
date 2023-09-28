@@ -9,10 +9,12 @@ export function createContentWindow(
   getWindow: (name: string) => BrowserWindow
 ): BrowserWindow {
   const contentWindow = new BrowserWindow({
-    width: 700,
+    width: 400,
     height: 600,
-    minWidth: 700,
+    minWidth: 400,
     minHeight: 600,
+    frame: false,
+    titleBarStyle: 'default',
     show: false, // do not show window by default
     webPreferences: {
       preload,
@@ -33,6 +35,7 @@ export function createContentWindow(
   // using command to show and hide window. do not show window by default
   contentWindow.once('ready-to-show', () => {
     setupShowWindowListener(contentWindow);
+    contentWindow.show();
   });
 
   // add screen-shot listener
@@ -66,6 +69,14 @@ export function setupShowWindowListener(window: BrowserWindow): void {
       window.show();
     } else {
       window.hide();
+    }
+  });
+
+  ipcMain.on(EVENTS.WINDOW_TOGGLE_CONTENT_WINDOW, () => {
+    if (window.isVisible()) {
+      window.hide();
+    } else {
+      window.show();
     }
   });
 }

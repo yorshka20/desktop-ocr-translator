@@ -1,13 +1,17 @@
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, SettingOutlined } from '@ant-design/icons';
 import { Description } from '@renderer/components/description';
 import { TextBlock } from '@renderer/components/text-block';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 
-import { EVENTS } from '../../../electron/constants';
 import Reset from '../../assets/styles/reset';
 import { colorMap, markMap } from './constants';
-import { useTextAnalyze, useTranslate } from './hooks';
+import {
+  useContentWindowInvoke,
+  useOCRContent,
+  useTextAnalyze,
+  useTranslate,
+} from './hooks';
 import { WordType } from './language-analysis';
 
 function App(): JSX.Element {
@@ -21,84 +25,56 @@ function App(): JSX.Element {
   );
 }
 
-function useContentWindowInvoke() {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    const handler = (_, show: boolean) => {
-      console.log('window display in content');
-      setShow(show);
-    };
-
-    window.electronApi.ipcRenderer.on('window-display', handler);
-
-    return () => {
-      window.electronApi.ipcRenderer.removeListener('window-display', handler);
-    };
-  }, []);
-
-  return show;
-}
-
 const Container = styled.div`
-  .modal-content {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
-    box-sizing: border-box;
-    padding: 20px;
+  box-sizing: border-box;
+  padding: 20px;
 
-    padding-top: 30px;
+  padding-top: 30px;
 
-    .original-text {
-      font-size: 14px;
-    }
+  .original-text {
+    font-size: 14px;
+  }
 
-    .chinese {
-      font-size: 14px;
-    }
+  .chinese {
+    font-size: 14px;
+  }
 
-    .close-icon {
-      position: absolute;
-      top: 5px;
-      right: 5px;
+  .setting-icon {
+    position: absolute;
+    top: 5px;
+    left: 5px;
 
-      font-size: 15px;
+    font-size: 15px;
 
-      cursor: pointer;
-    }
+    cursor: pointer;
+  }
+
+  .close-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    font-size: 15px;
+
+    cursor: pointer;
   }
 `;
 
 function ContentContainer({ show }: { show: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [ocrText, setOcrText] = useState('');
+  show;
 
-  useEffect(() => {
-    const handler = (_, content: string) => {
-      console.log('get ocr content', content);
-      setOcrText(content);
-
-      window.api.displayContentWindow(true);
-    };
-
-    console.log('register event', window.electronApi);
-
-    window.electronApi.ipcRenderer.on('ocr-content-received', handler);
-
-    return () => {
-      window.electronApi.ipcRenderer.removeListener(
-        'ocr-content-received',
-        handler
-      );
-    };
-  }, []);
+  const ocrText = useOCRContent();
 
   // do text analyze
   const textAnalyzed = useTextAnalyze(ocrText);
@@ -119,41 +95,49 @@ function ContentContainer({ show }: { show: boolean }) {
     window.api.displayContentWindow(false);
   }
 
+  function handleSetting() {
+    window.api.displayContentWindow(true);
+  }
+
   return (
-    <Container ref={containerRef} className={`video-preview-translate-modal`}>
-      <div className={'modal-content'}>
-        <CloseOutlined
-          onClick={() => handleHideWindow()}
-          className={'close-icon'}
-          rev={undefined}
-        />
+    <Container ref={containerRef}>
+      <SettingOutlined
+        onClick={handleSetting}
+        className={'setting-icon'}
+        rev={undefined}
+      />
 
-        <Description
-          text={ocrText}
-          lang={'ja'}
-          className="original-text"
-          header={'original text'}
-        >
-          {textAnalyzed.map((text, index) => (
-            <TextBlock
-              key={index}
-              word={text.word}
-              pronunciation={text.pronunciation}
-              mark={getMark(text.pos)}
-              color={getColor(text.pos)}
-            />
-          ))}
-        </Description>
+      <CloseOutlined
+        onClick={handleHideWindow}
+        className={'close-icon'}
+        rev={undefined}
+      />
 
-        <Description
-          text={translatedText}
-          lang={'zh'}
-          className="chinese"
-          header={'chinese'}
-        >
-          {translatedText}
-        </Description>
-      </div>
+      <Description
+        text={ocrText}
+        lang={'ja'}
+        className="original-text"
+        header={'original text'}
+      >
+        {textAnalyzed.map((text, index) => (
+          <TextBlock
+            key={index}
+            word={text.word}
+            pronunciation={text.pronunciation}
+            mark={getMark(text.pos)}
+            color={getColor(text.pos)}
+          />
+        ))}
+      </Description>
+
+      <Description
+        text={translatedText}
+        lang={'zh'}
+        className="chinese"
+        header={'chinese'}
+      >
+        {translatedText}
+      </Description>
     </Container>
   );
 }

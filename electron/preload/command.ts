@@ -5,7 +5,7 @@ import { EVENTS } from '../constants';
 import { store } from './store';
 
 export const setDisplayScreenshotWindow = (show: boolean) => {
-  ipcRenderer.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, '', show);
+  ipcRenderer.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, show);
 };
 
 export const getScreenScaleFactor = async () => {
@@ -28,7 +28,7 @@ export function saveImg(dataURI: string): string {
 }
 
 export function quitScreenShot() {
-  ipcRenderer.send(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, '', false);
+  ipcRenderer.send(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, false);
 }
 
 export async function doScreenshot() {
@@ -49,4 +49,8 @@ export function getOCRtext(): string {
   const text = store.get('ocr-content');
   console.log('fetch ocr content', text);
   return text;
+}
+
+export function displayMainWindow(show: boolean) {
+  ipcRenderer.send(EVENTS.WINDOW_DISPLAY_MAIN_WINDOW, show);
 }

@@ -50,7 +50,7 @@ export function createScreenShotWindow(
     screenShotWindow.loadFile(join(process.env.PWD || '', htmlPath));
   }
 
-  screenShotWindow.webContents.openDevTools();
+  // screenShotWindow.webContents.openDevTools();
 
   return screenShotWindow;
 }

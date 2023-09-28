@@ -5,6 +5,7 @@ import { ocrTextOnline } from '../main/services/ocr';
 import { translateText } from '../main/services/translate';
 import {
   displayContentWindow,
+  displayMainWindow,
   doScreenshot,
   getOCRtext,
   getScreenScaleFactor,
@@ -26,6 +27,7 @@ const api = {
   displayContentWindow,
   receiveOCRtext,
   getOCRtext,
+  displayMainWindow,
 };
 
 export type API = typeof api;

@@ -25,6 +25,12 @@ const shortCutList: ShortCutPair[] = [
       ipcMain.emit(EVENTS.WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT_WINDOW);
     },
   },
+  {
+    key: 'Alt+W',
+    func: () => {
+      ipcMain.emit(EVENTS.WINDOW_TOGGLE_CONTENT_WINDOW);
+    },
+  },
 ];
 
 export function registerGlobalShortcut(): void {

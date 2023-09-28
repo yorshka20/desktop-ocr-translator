@@ -1,8 +1,8 @@
 const defaultStoreValue = {
   'screen-scale-factor': 1,
   'google-translate-api-key': '',
-  'ocr-content': '',
-  'translate-content': '',
+  'ocr-content': 'ocr content is this',
+  'translate-content': 'translate content is this',
 };
 
 type StorageType = typeof defaultStoreValue;

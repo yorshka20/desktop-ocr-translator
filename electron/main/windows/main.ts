@@ -2,7 +2,7 @@ import { is } from '@electron-toolkit/utils';
 import { BrowserWindow, ipcMain, shell, systemPreferences } from 'electron';
 import { join } from 'path';
 
-import { DEV_SERVER_URL, preload } from '../../constants';
+import { DEV_SERVER_URL, EVENTS, preload } from '../../constants';
 import { getWindowHtmlPath } from '../../utils';
 
 export function createMainWindow(): void {
@@ -22,7 +22,9 @@ export function createMainWindow(): void {
   });
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show();
+    // mainWindow.show();
+
+    setupMainWindowListener(mainWindow);
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -50,4 +52,14 @@ export function createMainWindow(): void {
   } else {
     mainWindow.loadFile(indexHtml);
   }
+}
+
+function setupMainWindowListener(window: BrowserWindow) {
+  ipcMain.on(EVENTS.WINDOW_DISPLAY_MAIN_WINDOW, (_, show: boolean) => {
+    if (show) {
+      window.show();
+    } else {
+      window.hide();
+    }
+  });
 }
