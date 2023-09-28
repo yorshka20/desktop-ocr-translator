@@ -17,3 +17,7 @@
 - it's better to keep all ipc methods in preload script. you don't need to do it in renderer process, so just do it in main process.
 
 - circulated import is very annoying, and sometimes this error will occurred in the form of different error type.
+
+- you can not use `ipcMain` in preload script.
+
+- `ipcRenderer` use `send` method to emit message, not `emit`. you will not receive anything when using `ipcRenderer.emit`.

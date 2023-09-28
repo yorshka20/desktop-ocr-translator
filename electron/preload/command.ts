@@ -1,4 +1,4 @@
-import { ipcMain, ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 import { writeFileSync } from 'fs';
 
 import { EVENTS } from '../constants';
@@ -36,15 +36,17 @@ export async function doScreenshot() {
 }
 
 export function displayContentWindow(show: boolean) {
-  ipcRenderer.emit(EVENTS.WINDOW_DISPLAY_CONTENT_WINDOW, '', show);
+  ipcRenderer.send(EVENTS.WINDOW_DISPLAY_CONTENT_WINDOW, show);
 }
 
 export function receiveOCRtext(text: string) {
   store.set('ocr-content', text);
-  ipcRenderer.emit(EVENTS.CHANNEL_OCT_CONTENT_EMIT);
+  console.log('save ocr content: ', text);
+  ipcRenderer.send(EVENTS.CHANNEL_OCT_CONTENT_EMIT, text);
 }
 
 export function getOCRtext(): string {
   const text = store.get('ocr-content');
+  console.log('fetch ocr content', text);
   return text;
 }

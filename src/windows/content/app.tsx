@@ -81,10 +81,11 @@ function ContentContainer({ show }: { show: boolean }) {
   const [ocrText, setOcrText] = useState('');
 
   useEffect(() => {
-    const handler = () => {
-      const content = window.api.getOCRtext();
+    const handler = (_, content: string) => {
       console.log('get ocr content', content);
       setOcrText(content);
+
+      window.api.displayContentWindow(true);
     };
 
     console.log('register event', window.electronApi);

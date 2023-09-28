@@ -22,6 +22,9 @@ export function createContentWindow(
     },
   });
 
+  // todo:
+  getWindow;
+
   // hide traffic light. you can only close the window by ctrl+w
   if (process.platform === 'darwin') {
     contentWindow.setWindowButtonVisibility(false);
@@ -51,9 +54,9 @@ export function createContentWindow(
 }
 
 export function setupContentWindowListener(window: BrowserWindow): void {
-  ipcMain.on(EVENTS.CHANNEL_OCT_CONTENT_EMIT_2, () => {
+  ipcMain.on(EVENTS.CHANNEL_OCT_CONTENT_EMIT, (_, text: string) => {
     console.log('ocr content in content window');
-    window.webContents.send('ocr-content-received');
+    window.webContents.send('ocr-content-received', text);
   });
 }
 
@@ -63,16 +66,6 @@ export function setupShowWindowListener(window: BrowserWindow): void {
       window.show();
     } else {
       window.hide();
-    }
-
-    window.webContents.send('window-display', show);
-  });
-
-  ipcMain.on(EVENTS.WINDOW_TOGGLE_CONTENT_WINDOW, () => {
-    if (window.isVisible()) {
-      window.hide();
-    } else {
-      window.show();
     }
   });
 }

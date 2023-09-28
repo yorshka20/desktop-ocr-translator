@@ -50,10 +50,13 @@ export default function App() {
         resolveRef.current = resolve;
       }
     };
-    window.electronApi.ipcRenderer.on('window-display', handler);
+    window.electronApi.ipcRenderer.on('screenshot-window-display', handler);
 
     return () => {
-      window.electronApi.ipcRenderer.removeListener('window-display', handler);
+      window.electronApi.ipcRenderer.removeListener(
+        'screenshot-window-display',
+        handler
+      );
     };
   }, []);
 

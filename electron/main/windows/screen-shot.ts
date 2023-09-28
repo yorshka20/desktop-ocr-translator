@@ -58,6 +58,9 @@ export function createScreenShotWindow(
 export function setupScreenShotListener(
   getWindow: (name: string) => BrowserWindow
 ): void {
+  // todo:
+  getWindow;
+
   // it's a sync method. return with a promise resolve.
   ipcMain.handle(EVENTS.TASK_DO_SCREEN_SHOT, async () => {
     const primaryDisplay = screen.getPrimaryDisplay();
@@ -79,14 +82,6 @@ export function setupScreenShotListener(
   ipcMain.handle(EVENTS.TASK_GET_SCREEN_SCALE_FACTOR, () => {
     return screen.getPrimaryDisplay().scaleFactor;
   });
-
-  ipcMain.on(EVENTS.CHANNEL_OCT_CONTENT_EMIT, () => {
-    console.log('ocr content in screenshot window');
-    const contentWindow = getWindow('content');
-    console.log('contenwindow', contentWindow);
-    contentWindow.webContents.send('ocr-content-received');
-    contentWindow.webContents.send('window-display');
-  });
 }
 
 export function getScreenSize(): Electron.Size {
@@ -105,7 +100,7 @@ export function setupShowWindowListener(window: BrowserWindow): void {
       window.setKiosk(false);
     }
 
-    window.webContents.send('window-display', show);
+    window.webContents.send('screenshot-window-display', show);
   });
 
   ipcMain.on(EVENTS.WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT_WINDOW, () => {
