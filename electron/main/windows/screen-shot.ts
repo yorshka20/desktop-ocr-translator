@@ -2,8 +2,7 @@ import { is } from '@electron-toolkit/utils';
 import { BrowserWindow, desktopCapturer, ipcMain, screen } from 'electron';
 import { join } from 'path';
 
-import { DEV_SERVER_URL, EVENTS } from '../../constants';
-import { preload } from '../../preload';
+import { DEV_SERVER_URL, EVENTS, preload } from '../../constants';
 import { getWindowHtmlPath } from '../../utils';
 
 export function createScreenShotWindow(): void {
@@ -49,7 +48,7 @@ export function createScreenShotWindow(): void {
     screenShotWindow.loadFile(join(process.env.PWD || '', htmlPath));
   }
 
-  screenShotWindow.webContents.openDevTools();
+  // screenShotWindow.webContents.openDevTools();
 }
 
 export function setupScreenShotListener(): void {

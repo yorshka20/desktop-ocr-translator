@@ -2,8 +2,7 @@ import { is } from '@electron-toolkit/utils';
 import { BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 
-import { DEV_SERVER_URL, EVENTS } from '../../constants';
-import { preload } from '../../preload';
+import { DEV_SERVER_URL, EVENTS, preload } from '../../constants';
 import { getWindowHtmlPath } from '../../utils';
 
 export function createContentWindow(): void {

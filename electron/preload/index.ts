@@ -1,6 +1,5 @@
 import { electronAPI } from '@electron-toolkit/preload';
 import { contextBridge } from 'electron';
-import { join } from 'path';
 
 import { ocrTextOnline } from '../main/services/ocr';
 import { translateText } from '../main/services/translate';
@@ -26,8 +25,6 @@ const api = {
 };
 
 export type API = typeof api;
-
-export const preload = join(__dirname, '../preload/index.js');
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

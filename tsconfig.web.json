@@ -6,7 +6,8 @@
     "src/**/*.tsx",
     "electron/constants.ts",
     "electron/preload/*.d.ts",
-    "electron/main/translate.ts"
+    "electron/preload/**/*.ts",
+    "electron/main/services/*.ts"
   ],
   "compilerOptions": {
     "esModuleInterop": true,

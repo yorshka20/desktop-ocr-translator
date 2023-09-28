@@ -2,8 +2,9 @@
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": [
     "electron.vite.config.*",
-    "electron/main/*",
-    "electron/preload/*",
+    "electron/preload/preload.d.ts",
+    "electron/main/**/*",
+    "electron/preload/**/*",
     "vite.config.ts",
     "electron/constants.ts",
     "electron/main/**/*.ts",

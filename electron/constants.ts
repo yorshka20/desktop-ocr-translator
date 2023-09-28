@@ -1,3 +1,5 @@
+import { join } from 'path';
+
 export enum EVENTS {
   WINDOW_DISPLAY_SCREEN_SHOT_WINDOW = 'display-screen-shot-window',
   WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT_WINDOW = 'toggle-screen-shot-window',
@@ -10,3 +12,5 @@ export enum EVENTS {
 export const TRANSLATE_STORAGE_KEY = 'translate-cache';
 
 export const DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
+
+export const preload = join(__dirname, './preload/index.js');

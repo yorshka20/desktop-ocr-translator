@@ -2,8 +2,7 @@ import { is } from '@electron-toolkit/utils';
 import { BrowserWindow, ipcMain, shell, systemPreferences } from 'electron';
 import { join } from 'path';
 
-import { DEV_SERVER_URL } from '../../constants';
-import { preload } from '../../preload';
+import { DEV_SERVER_URL, preload } from '../../constants';
 import { getWindowHtmlPath } from '../../utils';
 
 export function createMainWindow(): void {
