@@ -40,6 +40,8 @@ const Container = styled.div`
 
   padding-top: 30px;
 
+  overflow: hidden scroll;
+
   .original-text {
     font-size: 14px;
   }
@@ -86,7 +88,7 @@ function ContentContainer({ show }: { show: boolean }) {
   }
 
   return (
-    <Container draggable={true} ref={containerRef}>
+    <Container ref={containerRef}>
       <SettingOutlined
         onClick={handleSetting}
         className={'setting-icon'}

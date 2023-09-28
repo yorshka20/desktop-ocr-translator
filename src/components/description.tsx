@@ -41,7 +41,7 @@ const Container = styled.div`
   .content {
     font-size: 16px;
 
-    padding: 2px;
+    padding: 5px;
 
     display: flex;
     flex-direction: row;

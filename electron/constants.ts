@@ -19,7 +19,6 @@ export enum EVENTS {
 
   // message channel
   CHANNEL_OCT_CONTENT_EMIT = 'ocr_content_channel',
-  CHANNEL_OCT_CONTENT_EMIT_2 = 'ocr_content_channel-2',
 }
 
 export const TRANSLATE_STORAGE_KEY = 'translate-cache';

@@ -9,8 +9,8 @@ export function createContentWindow(
   getWindow: (name: string) => BrowserWindow
 ): BrowserWindow {
   const contentWindow = new BrowserWindow({
-    width: 400,
-    height: 600,
+    width: 1080,
+    height: 800,
     minWidth: 400,
     minHeight: 600,
     frame: true,
@@ -38,7 +38,10 @@ export function createContentWindow(
   // using command to show and hide window. do not show window by default
   contentWindow.once('ready-to-show', () => {
     setupShowWindowListener(contentWindow);
-    contentWindow.show();
+  });
+
+  contentWindow.on('show', () => {
+    // contentWindow.webContents.openDevTools();
   });
 
   contentWindow.on('close', (e) => {
@@ -61,14 +64,11 @@ export function createContentWindow(
     contentWindow.loadFile(join(process.env.PWD || '', htmlPath));
   }
 
-  contentWindow.webContents.openDevTools();
-
   return contentWindow;
 }
 
 export function setupContentWindowListener(window: BrowserWindow): void {
   ipcMain.on(EVENTS.CHANNEL_OCT_CONTENT_EMIT, (_, text: string) => {
-    console.log('ocr content in content window');
     window.webContents.send('ocr-content-received', text);
   });
 }

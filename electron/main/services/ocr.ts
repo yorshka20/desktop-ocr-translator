@@ -9,8 +9,6 @@ export async function ocrTextOnline(
   // Creates a client
   const client = new vision.ImageAnnotatorClient();
 
-  return 'ocr content';
-
   /**
    * TODO(developer): Uncomment the following line before running the sample.
    */

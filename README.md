@@ -17,7 +17,7 @@
 
 - [x] press `Enter` to confirm screen content clip.
 
-- [] ocr results and translation will be shown in content window.
+- [x] ocr results and translation will be shown in content window.
 
 ### Translation with OCR result
 

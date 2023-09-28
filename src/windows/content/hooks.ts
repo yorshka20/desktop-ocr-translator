@@ -10,10 +10,9 @@ export function useTranslate(text: string) {
       return;
     }
 
-    setContent(text);
-    // window.api.translateText(text, 'ja').then((content) => {
-    //   setContent(content);
-    // });
+    window.api.translateText(text, 'zh').then((content) => {
+      setContent(content);
+    });
   }, [text]);
 
   return content;
@@ -24,7 +23,6 @@ export function useOCRContent() {
 
   useEffect(() => {
     const handler = (_, content: string) => {
-      console.log('get ocr content', content);
       setOcrText(content);
 
       window.api.displayContentWindow(true);
@@ -61,7 +59,6 @@ export function useContentWindowInvoke() {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const handler = (_, show: boolean) => {
-      console.log('window display in content');
       setShow(show);
     };
 

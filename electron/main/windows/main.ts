@@ -23,7 +23,7 @@ export function createMainWindow(): BrowserWindow {
   });
 
   mainWindow.on('ready-to-show', () => {
-    // mainWindow.show();
+    mainWindow.show();
 
     setupMainWindowListener(mainWindow);
   });
