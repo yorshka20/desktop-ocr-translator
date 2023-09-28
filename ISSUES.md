@@ -15,3 +15,5 @@
 - google-cloud libs cannot be used in renderer process, put it in main process and expose the function via preload.
 
 - it's better to keep all ipc methods in preload script. you don't need to do it in renderer process, so just do it in main process.
+
+- circulated import is very annoying, and sometimes this error will occurred in the form of different error type.

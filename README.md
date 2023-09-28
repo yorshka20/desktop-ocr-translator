@@ -2,13 +2,26 @@
 
 <img style="width: 100%;" src="./public/shot.png" />
 
-## 🚀Feature
+## 🚀Tech Stacks
 
 - Develop by react and built by vite.
 - Format code style by prettier and eslint.
 - Configured electron-builder and husky and commitlint.
+- Using google cloud api for OCR and translating.
 
 ## 📖Usage
+
+### Desktop OCR.
+
+- [x] press `Alt+D` to invoke a screenshot screen.
+
+- [x] press `Enter` to confirm screen content clip.
+
+- [] ocr results and translation will be shown in content window.
+
+### Translation with OCR result
+
+- [x] send OCR results to translation function.
 
 ### Dev
 
@@ -29,9 +42,9 @@ yarn dev
 yarn build:[ENV]
 ```
 
-### Design
+## Design
 
-## Purpose
+### Purpose
 
 - screen capture. which can be implemented locally.
 
@@ -41,7 +54,7 @@ yarn build:[ENV]
 
 - show pronunciation for at least English, better with Japanese
 
-## How and where to use this tool?
+### How and where to use this tool?
 
 I want to use this tool for game content translating.
 
