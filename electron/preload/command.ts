@@ -2,6 +2,7 @@ import { ipcMain, ipcRenderer } from 'electron';
 import { writeFileSync } from 'fs';
 
 import { EVENTS } from '../constants';
+import { store } from './store';
 
 export const setDisplayScreenshotWindow = (show: boolean) => {
   ipcRenderer.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, '', show);
@@ -34,6 +35,16 @@ export async function doScreenshot() {
   return await ipcRenderer.invoke(EVENTS.TASK_DO_SCREEN_SHOT);
 }
 
-export function showContentWindow() {
-  ipcMain.emit(EVENTS.WINDOW_DISPLAY_CONTENT_WINDOW);
+export function displayContentWindow(show: boolean) {
+  ipcRenderer.emit(EVENTS.WINDOW_DISPLAY_CONTENT_WINDOW, '', show);
+}
+
+export function receiveOCRtext(text: string) {
+  store.set('ocr-content', text);
+  ipcRenderer.emit(EVENTS.CHANNEL_OCT_CONTENT_EMIT);
+}
+
+export function getOCRtext(): string {
+  const text = store.get('ocr-content');
+  return text;
 }

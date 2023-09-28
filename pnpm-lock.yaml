@@ -26,6 +26,12 @@ dependencies:
   axios:
     specifier: ^1.5.0
     version: 1.5.0
+  mecab-wasm:
+    specifier: ^1.0.3
+    version: 1.0.3
+  wanakana:
+    specifier: ^5.1.0
+    version: 5.1.0
 
 devDependencies:
   '@ant-design/icons':
@@ -4967,6 +4973,10 @@ packages:
       escape-string-regexp: 4.0.0
     optional: true
 
+  /mecab-wasm@1.0.3:
+    resolution: {integrity: sha512-rkRMAcC/RptH1V8YOxc5m7KKONp94mqA+1Ye8DB6cfiwrM5T7kCKwCxnM2VdgdQMia1UjGqFHcTx0VZQQUZ6Hg==}
+    dev: false
+
   /meow@8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==}
     engines: {node: '>=10'}
@@ -7182,6 +7192,11 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /wanakana@5.1.0:
+    resolution: {integrity: sha512-QJ5XNTqL5gM1JR2ikESMi+xKx16TIuZDynj6LagqK4YCWnRihtxprzCnVI1SappWI8RuiSAANGoePEV5pptiiQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}

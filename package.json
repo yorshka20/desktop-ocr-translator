@@ -85,6 +85,8 @@
     "@google-cloud/translate": "^8.0.2",
     "@google-cloud/vision": "^4.0.2",
     "asar": "^3.2.0",
-    "axios": "^1.5.0"
+    "axios": "^1.5.0",
+    "mecab-wasm": "^1.0.3",
+    "wanakana": "^5.1.0"
   }
 }

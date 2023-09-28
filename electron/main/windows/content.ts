@@ -5,7 +5,9 @@ import { join } from 'path';
 import { DEV_SERVER_URL, EVENTS, preload } from '../../constants';
 import { getWindowHtmlPath } from '../../utils';
 
-export function createContentWindow(): void {
+export function createContentWindow(
+  getWindow: (name: string) => BrowserWindow
+): BrowserWindow {
   const contentWindow = new BrowserWindow({
     width: 700,
     height: 600,
@@ -31,7 +33,7 @@ export function createContentWindow(): void {
   });
 
   // add screen-shot listener
-  setupContentWindowListener();
+  setupContentWindowListener(contentWindow);
 
   const htmlPath = getWindowHtmlPath('content');
 
@@ -44,10 +46,15 @@ export function createContentWindow(): void {
   }
 
   contentWindow.webContents.openDevTools();
+
+  return contentWindow;
 }
 
-export function setupContentWindowListener(): void {
-  //
+export function setupContentWindowListener(window: BrowserWindow): void {
+  ipcMain.on(EVENTS.CHANNEL_OCT_CONTENT_EMIT_2, () => {
+    console.log('ocr content in content window');
+    window.webContents.send('ocr-content-received');
+  });
 }
 
 export function setupShowWindowListener(window: BrowserWindow): void {

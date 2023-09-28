@@ -118,9 +118,9 @@ export default function App() {
 
     const img = newCanvas.toDataURL();
 
-    handleOCR(img);
+    handleOCR(img, 'ja');
 
-    window.api.saveImg(img);
+    // window.api.saveImg(img);
 
     clearRect();
 

@@ -1,21 +1,15 @@
-type Lang = 'jpn' | 'eng' | 'zh';
-
-const translateLangMap: Record<Lang, string> = {
-  jpn: 'ja',
-  eng: 'en',
-  zh: 'zh',
-};
+type Lang = 'ja' | 'en' | 'zh';
 
 export async function handleOCR(img: string, lang: Lang = 'zh') {
-  const textContent = await window.api.ocrTextOnline(img, 'ja');
+  const textContent = await window.api.ocrTextOnline(img, lang as any);
 
-  console.log('textContent');
+  console.log('ocr textContent: ');
   console.log(textContent);
 
-  const result = await window.api.translateText(
-    textContent,
-    translateLangMap[lang] as any
-  );
+  // const result = await window.api.translateText(
+  //   textContent,
+  //   translateLangMap[lang] as any
+  // );
 
-  console.log('translate result', result);
+  window.api.receiveOCRtext(textContent);
 }

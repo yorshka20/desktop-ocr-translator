@@ -4,11 +4,13 @@ import { contextBridge } from 'electron';
 import { ocrTextOnline } from '../main/services/ocr';
 import { translateText } from '../main/services/translate';
 import {
+  displayContentWindow,
   doScreenshot,
+  getOCRtext,
   getScreenScaleFactor,
   quitScreenShot,
+  receiveOCRtext,
   saveImg,
-  showContentWindow,
 } from './command';
 import { store } from './store';
 
@@ -21,7 +23,9 @@ const api = {
   saveImg,
   store,
   translateText,
-  showContentWindow,
+  displayContentWindow,
+  receiveOCRtext,
+  getOCRtext,
 };
 
 export type API = typeof api;

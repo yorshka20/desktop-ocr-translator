@@ -9,6 +9,8 @@ export async function ocrTextOnline(
   // Creates a client
   const client = new vision.ImageAnnotatorClient();
 
+  return 'ocr content';
+
   /**
    * TODO(developer): Uncomment the following line before running the sample.
    */
@@ -27,7 +29,6 @@ export async function ocrTextOnline(
   // there are textAnnotations and fullTextAnnotation. we only need full text.
   const detection = result.fullTextAnnotation;
   const text = detection?.text || '';
-  console.log('Text:', text);
 
   return text;
 }

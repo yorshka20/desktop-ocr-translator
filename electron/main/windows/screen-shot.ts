@@ -5,7 +5,9 @@ import { join } from 'path';
 import { DEV_SERVER_URL, EVENTS, preload } from '../../constants';
 import { getWindowHtmlPath } from '../../utils';
 
-export function createScreenShotWindow(): void {
+export function createScreenShotWindow(
+  getWindow: (name: string) => BrowserWindow
+): BrowserWindow {
   const { width, height } = getScreenSize();
   const screenShotWindow = new BrowserWindow({
     width,
@@ -36,7 +38,7 @@ export function createScreenShotWindow(): void {
   });
 
   // add screen-shot listener
-  setupScreenShotListener();
+  setupScreenShotListener(getWindow);
 
   const htmlPath = getWindowHtmlPath('screenshot');
 
@@ -48,10 +50,14 @@ export function createScreenShotWindow(): void {
     screenShotWindow.loadFile(join(process.env.PWD || '', htmlPath));
   }
 
-  // screenShotWindow.webContents.openDevTools();
+  screenShotWindow.webContents.openDevTools();
+
+  return screenShotWindow;
 }
 
-export function setupScreenShotListener(): void {
+export function setupScreenShotListener(
+  getWindow: (name: string) => BrowserWindow
+): void {
   // it's a sync method. return with a promise resolve.
   ipcMain.handle(EVENTS.TASK_DO_SCREEN_SHOT, async () => {
     const primaryDisplay = screen.getPrimaryDisplay();
@@ -72,6 +78,14 @@ export function setupScreenShotListener(): void {
 
   ipcMain.handle(EVENTS.TASK_GET_SCREEN_SCALE_FACTOR, () => {
     return screen.getPrimaryDisplay().scaleFactor;
+  });
+
+  ipcMain.on(EVENTS.CHANNEL_OCT_CONTENT_EMIT, () => {
+    console.log('ocr content in screenshot window');
+    const contentWindow = getWindow('content');
+    console.log('contenwindow', contentWindow);
+    contentWindow.webContents.send('ocr-content-received');
+    contentWindow.webContents.send('window-display');
   });
 }
 

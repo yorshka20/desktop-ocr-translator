@@ -16,6 +16,12 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
   ? join(process.env.DIST_ELECTRON, '../public')
   : process.env.DIST;
 
+const windowMaps = {};
+
+function getWindow(name: string) {
+  return windowMaps[name];
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -34,9 +40,11 @@ app.whenReady().then(() => {
 
   createMainWindow();
 
-  createScreenShotWindow();
+  const screenshotWindow = createScreenShotWindow(getWindow);
+  windowMaps['screenshot'] = screenshotWindow;
 
-  createContentWindow();
+  const contentWindow = createContentWindow(getWindow);
+  windowMaps['content'] = contentWindow;
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
