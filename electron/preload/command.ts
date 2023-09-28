@@ -1,10 +1,10 @@
-import { ipcRenderer } from 'electron';
+import { ipcMain, ipcRenderer } from 'electron';
 import { writeFileSync } from 'fs';
 
 import { EVENTS } from '../constants';
 
 export const setDisplayScreenshotWindow = (show: boolean) => {
-  ipcRenderer.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, '', show);
+  ipcRenderer.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, '', show);
 };
 
 export const getScreenScaleFactor = async () => {
@@ -27,9 +27,13 @@ export function saveImg(dataURI: string): string {
 }
 
 export function quitScreenShot() {
-  ipcRenderer.send(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, '', false);
+  ipcRenderer.send(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, '', false);
 }
 
 export async function doScreenshot() {
   return await ipcRenderer.invoke(EVENTS.TASK_DO_SCREEN_SHOT);
+}
+
+export function showContentWindow() {
+  ipcMain.emit(EVENTS.WINDOW_DISPLAY_CONTENT_WINDOW);
 }
