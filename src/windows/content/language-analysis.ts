@@ -1,4 +1,4 @@
-import Mecab from 'mecab-wasm';
+// import Mecab from 'mecab-wasm';
 import { toHiragana } from 'wanakana';
 
 export interface MecabQueryItem {
@@ -15,30 +15,31 @@ export interface MecabQueryItem {
 }
 
 // to fix the production bundle error with parcel, we should fix the parcel/runtime-js in packageJson with resolutions.
-Mecab.waitReady();
+// Mecab.waitReady();
 
 export function analyzeSentence(content: string) {
-  const result = Mecab.query(content);
+  return [];
+  // const result = Mecab.query(content);
 
-  return result.map((word) => {
-    const obj = {
-      ...word,
-    };
+  // return result.map((word) => {
+  //   const obj = {
+  //     ...word,
+  //   };
 
-    if (
-      obj.pos === WordType.AUX ||
-      obj.pos === WordType.AUX_VERB ||
-      obj.pos === WordType.MARK
-    ) {
-      obj.pronunciation = '';
-    }
+  //   if (
+  //     obj.pos === WordType.AUX ||
+  //     obj.pos === WordType.AUX_VERB ||
+  //     obj.pos === WordType.MARK
+  //   ) {
+  //     obj.pronunciation = '';
+  //   }
 
-    obj.pronunciation = toHiragana(obj.pronunciation);
+  //   obj.pronunciation = toHiragana(obj.pronunciation);
 
-    console.log('analyze', obj.word, obj.pos, obj.pronunciation);
+  //   console.log('analyze', obj.word, obj.pos, obj.pronunciation);
 
-    return obj;
-  });
+  //   return obj;
+  // });
 }
 
 export enum WordType {
