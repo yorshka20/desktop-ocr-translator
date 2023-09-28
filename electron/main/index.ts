@@ -9,11 +9,14 @@ import {
 import { join } from 'path';
 
 import {
+  registerGlobalShortcut,
+  unregisterGlobalShortcut,
+} from './global-short-cut';
+import {
   getScreenSize,
   setupScreenShotListener,
   setupShowWindowListener,
 } from './screen-shot';
-import { registerGlobalShortcut, unregisterGlobalShortcut } from './short-cut';
 
 process.env.DIST_ELECTRON = join(__dirname, '../');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist-electron/renderer');
@@ -64,12 +67,10 @@ function createWindow(): void {
     // in multiple pages, set specific html file path to the url.
     mainWindow.loadURL(url + '/src/windows/main/index.html');
 
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(indexHtml);
   }
-
-  registerGlobalShortcut();
 }
 
 function createScreenShotWindow(): void {
@@ -133,6 +134,8 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
+
+  registerGlobalShortcut();
 
   // create and show main window.
   createWindow();

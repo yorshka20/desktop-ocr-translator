@@ -33,7 +33,7 @@ export function getScreenSize(): Electron.Size {
 }
 
 export function setupShowWindowListener(window: BrowserWindow): void {
-  ipcMain.on(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT, (_, show: boolean) => {
+  ipcMain.on(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, (_, show: boolean) => {
     if (show) {
       window.setKiosk(true);
       window.show();
@@ -45,7 +45,7 @@ export function setupShowWindowListener(window: BrowserWindow): void {
     window.webContents.send('window-display', show);
   });
 
-  ipcMain.on(EVENTS.WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT, () => {
+  ipcMain.on(EVENTS.WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT_WINDOW, () => {
     if (window.isVisible()) {
       window.hide();
     } else {

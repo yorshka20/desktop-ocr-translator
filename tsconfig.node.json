@@ -6,7 +6,8 @@
     "electron/preload/*",
     "vite.config.ts",
     "electron/constants.ts",
-    "electron/main/**/*.ts"
+    "electron/main/**/*.ts",
+    "electron/utils.ts"
   ],
   "compilerOptions": {
     "composite": true,
