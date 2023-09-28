@@ -23,7 +23,7 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
 
 const preload = join(__dirname, '../preload/index.js');
 const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, 'index.html');
+const indexHtml = join(process.env.DIST, '/src/windows/main/index.html');
 
 function createWindow(): void {
   // Create the browser window.
@@ -62,7 +62,7 @@ function createWindow(): void {
 
     // default to open the index.html file.
     // in multiple pages, set specific html file path to the url.
-    mainWindow.loadURL(url);
+    mainWindow.loadURL(url + '/src/windows/main/index.html');
 
     mainWindow.webContents.openDevTools();
   } else {
@@ -108,9 +108,12 @@ function createScreenShotWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && url) {
-    screenShotWindow.loadURL(url + '/screenshot/index.html');
+    screenShotWindow.loadURL(url + '/src/windows/screenshot/index.html');
   } else {
-    const htmlPath = join(process.env.PWD || '', 'screenshot/index.html');
+    const htmlPath = join(
+      process.env.PWD || '',
+      '/src/windows/screenshot/index.html'
+    );
     screenShotWindow.loadFile(htmlPath);
   }
 
