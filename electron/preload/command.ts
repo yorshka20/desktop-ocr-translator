@@ -42,7 +42,7 @@ export function displayContentWindow(show: boolean) {
 export function receiveOCRtext(text: string) {
   store.set('ocr-content', text);
   console.log('save ocr content: ', text);
-  ipcRenderer.send(EVENTS.CHANNEL_OCT_CONTENT_EMIT, text);
+  ipcRenderer.send(EVENTS.CHANNEL_OCR_CONTENT_EMIT, text);
 }
 
 export function getOCRtext(): string {

@@ -101,7 +101,7 @@ function ContentContainer({ show }: { show: boolean }) {
                 color={getColor(text.pos)}
               />
             ))
-          : undefined}
+          : ocrText}
       </Description>
 
       <Description

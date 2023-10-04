@@ -68,7 +68,7 @@ export function createContentWindow(
 }
 
 export function setupContentWindowListener(window: BrowserWindow): void {
-  ipcMain.on(EVENTS.CHANNEL_OCT_CONTENT_EMIT, (_, text: string) => {
+  ipcMain.on(EVENTS.CHANNEL_OCR_CONTENT_EMIT, (_, text: string) => {
     window.webContents.send('ocr-content-received', text);
   });
 }

@@ -18,7 +18,7 @@ export enum EVENTS {
   TASK_GET_SCREEN_SCALE_FACTOR = 'get-screen-scale-factor',
 
   // message channel
-  CHANNEL_OCT_CONTENT_EMIT = 'ocr_content_channel',
+  CHANNEL_OCR_CONTENT_EMIT = 'ocr_content_channel',
 }
 
 export const TRANSLATE_STORAGE_KEY = 'translate-cache';
