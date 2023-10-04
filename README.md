@@ -2,7 +2,7 @@
 
 <img style="width: 100%;" src="./preview/ocr.png" />
 
-> OCR screenshot mode. press `Alt+D` to invoke. press `Enter` to confirm clip.
+> press `Alt+D` to invoke screenshot mode. press `Enter` to confirm clip.
 
 <img style="width: 100%;" src="./preview/translate.png" />
 
@@ -11,9 +11,29 @@
 ## 🚀Tech Stacks
 
 - Develop by react and built by vite.
-- Format code style by prettier and eslint.
-- Configured electron-builder and husky and commitlint.
 - Using google cloud api for OCR and translating.
+
+## 🗼Features
+
+### OCR
+
+- using `Google Vision API` for text annotation.
+
+- only configured for `Japanese` ocr currently.
+
+- change ocr language type in UI is not supported yet.
+
+### Sentence Syntax Analyze
+
+- using [`Mecab-wasm`](https://github.com/itayperl/mecab-wasm) for sentence Syntax Analyze.
+
+- _NOTICE_: only supported for Japanese.
+
+### Translate
+
+- using `Google Translate API` for text translating.
+
+- currently only `English` and `Chinese` are configured for translating.
 
 ## 📖Usage
 
