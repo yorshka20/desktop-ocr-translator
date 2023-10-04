@@ -5,14 +5,13 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 
 import Reset from '../../assets/styles/reset';
-import { colorMap, markMap } from './constants';
 import {
   useContentWindowInvoke,
   useOCRContent,
   useTextAnalyze,
   useTranslate,
 } from './hooks';
-import { WordType } from './language-analysis';
+import { getColor, getMark } from './utils';
 
 function App(): JSX.Element {
   const show = useContentWindowInvoke();
@@ -73,15 +72,6 @@ function ContentContainer({ show }: { show: boolean }) {
 
   // input originalText and output translated text
   const translatedText = useTranslate(ocrText);
-
-  const getColor = (wordType: string) => colorMap[wordType];
-
-  const getMark = (wordType: string) => {
-    if (wordType === WordType.MARK) {
-      return '';
-    }
-    return markMap[wordType];
-  };
 
   function handleSetting() {
     window.api.displayMainWindow(true);

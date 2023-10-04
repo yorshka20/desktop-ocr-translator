@@ -1,4 +1,4 @@
-import { type Position, RectCutArea } from '@renderer/components/rectCutArea';
+import { type Position, RectCutArea } from '@renderer/components/rect-cut-area';
 import { createPromise, noop } from '@renderer/utils';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
