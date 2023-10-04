@@ -1,5 +1,17 @@
 # Desktop-orc-translator
 
+A desktop ocr translating tool based on Electron. I use this when playing foreign language game.
+
+press `Alt+D` to invoke a screenshot window, selecting content for ocr and press `Enter` to confirm clipping, and then a content window containing the ocr and translation result will pop up.
+
+**NOTICE:**
+
+A local `Google Cloud Credentials` is required for using google cloud api.
+
+check [here](https://cloud.google.com/translate/docs/authentication) for more information.
+
+## Preview
+
 <img style="width: 100%;" src="./preview/ocr.png" />
 
 > press `Alt+D` to invoke screenshot mode. press `Enter` to confirm clip.
