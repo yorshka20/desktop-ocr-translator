@@ -1,8 +1,9 @@
+import { type Lang } from 'electron/main/services/translate';
 import { useEffect, useState } from 'react';
 
 import { type MecabQueryItem, analyzeSentence } from './language-analysis';
 
-export function useTranslate(text: string) {
+export function useTranslate(text: string, lang: Lang) {
   const [content, setContent] = useState('');
 
   useEffect(() => {
@@ -10,10 +11,10 @@ export function useTranslate(text: string) {
       return;
     }
 
-    window.api.translateText(text, 'zh').then((content) => {
+    window.api.translateText(text, lang).then((content) => {
       setContent(content);
     });
-  }, [text]);
+  }, [text, lang]);
 
   return content;
 }

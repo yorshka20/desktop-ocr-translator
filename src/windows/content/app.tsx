@@ -71,7 +71,9 @@ function ContentContainer({ show }: { show: boolean }) {
   const textAnalyzed = useTextAnalyze(ocrText);
 
   // input originalText and output translated text
-  const translatedText = useTranslate(ocrText);
+  const translatedText = useTranslate(ocrText, 'zh');
+
+  const translatedTextEn = useTranslate(ocrText, 'en');
 
   function handleSetting() {
     window.api.displayMainWindow(true);
@@ -111,6 +113,15 @@ function ContentContainer({ show }: { show: boolean }) {
         header={'chinese'}
       >
         {translatedText}
+      </Description>
+
+      <Description
+        text={translatedTextEn}
+        lang={'en'}
+        className="chinese"
+        header={'English'}
+      >
+        {translatedTextEn}
       </Description>
     </Container>
   );

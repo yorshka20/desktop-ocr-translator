@@ -4,7 +4,7 @@ import { v2 } from '@google-cloud/translate';
 // Creates a client
 const translate = new v2.Translate();
 
-type Lang = 'zh' | 'ja' | 'en';
+export type Lang = 'zh' | 'ja' | 'en';
 
 /**
  * TODO(developer): Uncomment the following lines before running the sample.
