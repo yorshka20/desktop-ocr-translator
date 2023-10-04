@@ -1,6 +1,12 @@
-# 🌈Electron-react-starter
+# Desktop-orc-translator
 
-<img style="width: 100%;" src="./public/shot.png" />
+<img style="width: 100%;" src="./preview/ocr.png" />
+
+> OCR screenshot mode. press `Alt+D` to invoke. press `Enter` to confirm clip.
+
+<img style="width: 100%;" src="./preview/translate.png" />
+
+> ocr and translate content show
 
 ## 🚀Tech Stacks
 
@@ -17,7 +23,7 @@
 
 - [x] press `Enter` to confirm screen content clip.
 
-- [x] ocr results and translation will be shown in content window.
+- [x] ocr results and translation will be shown in a popup window.
 
 ### Translation with OCR result
 
@@ -42,20 +48,10 @@ yarn dev
 yarn build:[ENV]
 ```
 
-## Design
+## TODO
 
-### Purpose
+- [] more UI implementation
 
-- screen capture. which can be implemented locally.
+- [] enable OCR and translate config
 
-- ocr support for at least Japanese and English
-
-- translate support for at least Japanese and English
-
-- show pronunciation for at least English, better with Japanese
-
-### How and where to use this tool?
-
-I want to use this tool for game content translating.
-
-ocr --> text recognition --> translation
+- [] more feature on screenshot stage. e.g. supporting a float toolbar aside the clip area for multiple post-process.
