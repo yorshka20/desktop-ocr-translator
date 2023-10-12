@@ -33,11 +33,6 @@ export function createMainWindow(): BrowserWindow {
     return { action: 'deny' };
   });
 
-  // ipcMain.handle('check-screen', async () => {
-  //   const result = await systemPreferences.getMediaAccessStatus('screen');
-  //   return result;
-  // });
-
   const indexHtml = join(process.env.DIST || '', getWindowHtmlPath('main'));
 
   // HMR for renderer base on electron-vite cli.

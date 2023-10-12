@@ -4,13 +4,13 @@ import { EVENTS } from '../constants';
 
 type ShortCutPair = {
   key: string;
-  func: () => void;
+  fn: () => void;
 };
 
 const shortCutList: ShortCutPair[] = [
   {
     key: 'Alt+D',
-    func: () => {
+    fn: () => {
       ipcMain.emit(EVENTS.WINDOW_DISPLAY_SCREEN_SHOT_WINDOW, '', true);
 
       globalShortcut.register('ESC', () => {
@@ -21,21 +21,21 @@ const shortCutList: ShortCutPair[] = [
   },
   {
     key: 'Alt+Q',
-    func: () => {
+    fn: () => {
       ipcMain.emit(EVENTS.WINDOW_TOGGLE_DISPLAY_SCREEN_SHOT_WINDOW);
     },
   },
   {
     key: 'Alt+W',
-    func: () => {
+    fn: () => {
       ipcMain.emit(EVENTS.WINDOW_TOGGLE_CONTENT_WINDOW);
     },
   },
 ];
 
 export function registerGlobalShortcut(): void {
-  for (const { key, func } of shortCutList) {
-    const ret = globalShortcut.register(key, func);
+  for (const { key, fn } of shortCutList) {
+    const ret = globalShortcut.register(key, fn);
 
     if (!ret) {
       console.log('registration failed: ', key);
