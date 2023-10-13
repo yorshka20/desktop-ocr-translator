@@ -65,7 +65,13 @@ export function RectCutArea({
 
   useEffect(() => {
     // create a mask after screenshot. otherwise screenshot will take the mask in.
-    readyToCutPromise?.then(() => makeMask());
+    readyToCutPromise?.then(() => {
+      makeMask();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.extend = new CanvasExtension(canvasRef.current);
+    });
   }, [readyToCutPromise]);
 
   function getContext() {
@@ -181,4 +187,48 @@ export function RectCutArea({
       </ContentWrapper>
     </CanvasContainer>
   );
+}
+
+class CanvasExtension {
+  constructor(private canvas: HTMLCanvasElement) {
+    //
+    this.extendPrototype();
+  }
+
+  private extendPrototype = () => {
+    if (!this.canvas) {
+      return;
+    }
+    const canvasProto = Object.getPrototypeOf(this.canvas);
+    const context = this.canvas.getContext('2d');
+    if (!context) {
+      return;
+    }
+    const ctxProto = Object.getPrototypeOf(context) as CanvasRenderingContext2D;
+    console.log('fn', canvasProto, ctxProto);
+
+    const stroke = ctxProto.stroke;
+    ctxProto.stroke = function (
+      args: Parameters<CanvasRenderingContext2D['stroke']>
+    ) {
+      console.log('stroke', args);
+      if (args === undefined) {
+        return stroke.apply(this);
+      }
+
+      return stroke.apply(this, args);
+    };
+
+    const strokeRect = ctxProto.strokeRect;
+    ctxProto.strokeRect = (...args: Parameters<CanvasRect['strokeRect']>) => {
+      console.log('stroke rect,', args);
+      return strokeRect.apply(this, args);
+    };
+
+    this.canvas.addEventListener('click', this.handleClick);
+  };
+
+  private handleClick = (e: MouseEvent) => {
+    console.log('click canvas', e);
+  };
 }

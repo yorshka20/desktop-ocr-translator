@@ -55,8 +55,10 @@ export default function App() {
     async function screenshot(): Promise<void> {
       try {
         const dataUrl: string = await window.api.doScreenshot();
+
         // resolve promise to trigger mask rendering
         resolveRef.current();
+
         const canvas = canvasRef.current;
         if (canvas) {
           const img = new Image();
