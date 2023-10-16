@@ -53,6 +53,10 @@ interface RectCutAreaProps {
   quit: () => void;
 }
 
+`
+todo: make a more general canvas rendering methods set.
+`;
+
 export function RectCutArea({
   handleCut,
   readyToCutPromise,
@@ -69,8 +73,8 @@ export function RectCutArea({
       makeMask();
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.extend = new CanvasExtension(canvasRef.current);
+      if (canvasRef.current === null) return;
+      extendCanvas(canvasRef.current);
     });
   }, [readyToCutPromise]);
 
@@ -187,6 +191,17 @@ export function RectCutArea({
       </ContentWrapper>
     </CanvasContainer>
   );
+}
+
+`
+extends the prototype of canvas and canvas context.
+and add a click event listener to canvas.
+
+delegate the click event to the canvas component and compute the element interacted with the click event.
+`;
+
+function extendCanvas(canvas: HTMLCanvasElement) {
+  new CanvasExtension(canvas);
 }
 
 class CanvasExtension {
